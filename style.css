@@ -330,14 +330,14 @@ html, body {
 }
 .deco-3 {
   --rot: -20deg;
-  top: 8%; left: 3%;
+  top: 8%; left: 14%;
   width: 180px;
   opacity: 0.55;
   animation: swayGentle 16s ease-in-out infinite;
 }
 .deco-4 {
   --rot: 30deg;
-  bottom: 10%; right: 4%;
+  bottom: 10%; right: 14%;
   width: 200px;
   opacity: 0.55;
   animation: swayGentle 13s ease-in-out infinite reverse;
