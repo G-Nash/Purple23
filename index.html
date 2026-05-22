@@ -13,10 +13,14 @@
     --plum: #6b3f7a;
     --lavender: #b89ec9;
     --lilac: #d9c4e6;
-    --whisper: #e8d8f0;        /* was #f3ecf7 — deeper lavender */
-    --paper:   #f0e3f5;        /* was #fbf8fc — soft lilac base */
+    --whisper: #e8d8f0;
+    --paper:   #f0e3f5;
     --ink: #2a1733;
-    --gold: #c9a96e;
+    /* Warm accents — woven through the palette for candlelit feel */
+    --gold:   #d4a574;      /* warmer honey gold (was #d4a574) */
+    --blush:  #f4c8c0;      /* soft peach-blush */
+    --rose:   #c8859b;      /* dusty rose / mauve */
+    --cream:  #fbe8d8;      /* warm cream highlight */
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -150,7 +154,7 @@
   .intro-divider {
     width: 60px;
     height: 1px;
-    background: #c9a96e;
+    background: #d4a574;
     margin: 1.5rem auto;
     transform: scaleX(0);
     animation: introDivider 1s ease 2.4s forwards;
@@ -163,7 +167,7 @@
     margin-top: 2.5rem;
     padding: 0.9rem 2.5rem;
     background: transparent;
-    border: 1px solid #c9a96e;
+    border: 1px solid #d4a574;
     color: #fbf8fc;
     font-family: 'Italiana', serif;
     font-size: 0.8rem;
@@ -177,7 +181,7 @@
     -webkit-tap-highlight-color: transparent;
   }
   .intro-cta:hover {
-    background: #c9a96e;
+    background: #d4a574;
     color: #2a1733;
     letter-spacing: 0.4em;
   }
@@ -205,14 +209,17 @@
     position: relative;
     z-index: 3;
     padding: 4rem 3.5rem;
-    background: rgba(248, 240, 252, 0.88);
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(251, 232, 216, 0.4), transparent 60%),
+      rgba(248, 240, 252, 0.88);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(139, 95, 168, 0.4);
+    border: 1px solid rgba(212, 165, 116, 0.35);
     border-radius: 4px;
     box-shadow:
       0 30px 80px -30px rgba(61, 31, 77, 0.5),
-      0 0 0 1px rgba(255, 255, 255, 0.35) inset;
+      0 0 0 1px rgba(251, 232, 216, 0.5) inset,
+      inset 0 1px 0 rgba(251, 232, 216, 0.6);
     max-width: 720px;
   }
   .card-narrow { max-width: 520px; }
@@ -250,7 +257,7 @@
   }
   .orb-3 {
     width: 560px; height: 560px;
-    background: radial-gradient(circle, rgba(201, 169, 110, 0.25), transparent 70%);
+    background: radial-gradient(circle, rgba(212, 165, 116, 0.25), transparent 70%);
     top: 40%; left: 50%;
     animation: orbFloat3 32s ease-in-out infinite;
   }
@@ -259,6 +266,20 @@
     background: radial-gradient(circle, rgba(107, 63, 122, 0.6), transparent 70%);
     top: 60%; left: 5%;
     animation: orbFloat1 26s ease-in-out infinite reverse;
+  }
+  /* Warm accent orb — peach/blush for candlelit feel */
+  .orb-warm {
+    width: 580px; height: 580px;
+    background: radial-gradient(circle, rgba(244, 200, 192, 0.45), transparent 70%);
+    top: 15%; right: 20%;
+    animation: orbFloat2 30s ease-in-out infinite;
+  }
+  /* Dusty rose orb — for soft vintage warmth */
+  .orb-rose {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(200, 133, 155, 0.32), transparent 70%);
+    bottom: 25%; left: 30%;
+    animation: orbFloat3 36s ease-in-out infinite reverse;
   }
 
   @keyframes orbFloat1 {
@@ -282,7 +303,7 @@
     background-image:
       radial-gradient(circle at 12% 18%, rgba(107, 63, 122, 0.14) 1.5px, transparent 2px),
       radial-gradient(circle at 78% 32%, rgba(184, 158, 201, 0.20) 1.5px, transparent 2px),
-      radial-gradient(circle at 42% 78%, rgba(201, 169, 110, 0.16) 1.5px, transparent 2px),
+      radial-gradient(circle at 42% 78%, rgba(212, 165, 116, 0.16) 1.5px, transparent 2px),
       radial-gradient(circle at 88% 88%, rgba(107, 63, 122, 0.12) 1.5px, transparent 2px);
     background-size: 220px 220px, 280px 280px, 320px 320px, 260px 260px;
     background-position: 0 0, 80px 40px, 40px 160px, 120px 100px;
@@ -490,15 +511,15 @@
     animation: moonGlow 4s ease-in-out infinite;
   }
   @keyframes moonGlow {
-    0%, 100% { filter: drop-shadow(0 0 12px rgba(201, 169, 110, 0.5)); }
-    50%      { filter: drop-shadow(0 0 24px rgba(201, 169, 110, 0.85)); }
+    0%, 100% { filter: drop-shadow(0 0 12px rgba(212, 165, 116, 0.5)); }
+    50%      { filter: drop-shadow(0 0 24px rgba(212, 165, 116, 0.85)); }
   }
 
   /* Soft vignette for content legibility */
   .vignette {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(107, 63, 122, 0.35) 100%);
+    background: radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(140, 70, 95, 0.32) 100%);
   }
 
   /* ========= PURPLE HEARTS - signature motif ========= */
@@ -589,22 +610,12 @@
     /* Hide scrollbar */
     scrollbar-width: none;          /* Firefox */
     -ms-overflow-style: none;       /* IE / old Edge */
-    /* Scroll-snap removed from here — handled by JS for smoothness.
-       Mobile keeps CSS snap because touch flick + CSS snap is smooth. */
+    /* Custom JS-driven slow snap on ALL devices for consistent feel */
   }
   .journey::-webkit-scrollbar {     /* Chrome / Safari / Opera */
     display: none;
     width: 0;
     height: 0;
-  }
-  /* On touch devices (mobile/tablet), use native CSS snap since touch flick
-     does not fight mandatory snap the way mouse-wheel does on desktop. */
-  @media (hover: none) and (pointer: coarse) {
-    .journey {
-      scroll-snap-type: y mandatory;
-      scroll-behavior: smooth;
-    }
-    .scene { scroll-snap-align: start; scroll-snap-stop: always; }
   }
   /* Hide global body scrollbar too if any browser exposes it */
   html, body {
@@ -1207,7 +1218,7 @@
           <ellipse cx="-22" cy="22" rx="20" ry="26" transform="rotate(45 -22 22)" fill="#d9c4e6" stroke="#fbf8fc" stroke-width="1" opacity="0.95"/>
           <ellipse cx="-22" cy="-22" rx="20" ry="26" transform="rotate(135 -22 -22)" fill="#d9c4e6" stroke="#fbf8fc" stroke-width="1" opacity="0.95"/>
           <!-- center -->
-          <circle cx="0" cy="0" r="14" fill="#c9a96e"/>
+          <circle cx="0" cy="0" r="14" fill="#d4a574"/>
           <circle cx="-4" cy="-4" r="4" fill="#fff8e7" opacity="0.6"/>
         </g>
       </svg>
@@ -1230,6 +1241,8 @@
   <div class="orb orb-2"></div>
   <div class="orb orb-3"></div>
   <div class="orb orb-4"></div>
+  <div class="orb orb-warm"></div>
+  <div class="orb orb-rose"></div>
   <div class="pattern"></div>
 
   <!-- Crescent moon -->
@@ -1237,13 +1250,13 @@
     <defs>
       <radialGradient id="moonGrad" cx="40%" cy="40%">
         <stop offset="0%" stop-color="#fff8e7"/>
-        <stop offset="100%" stop-color="#c9a96e"/>
+        <stop offset="100%" stop-color="#d4a574"/>
       </radialGradient>
     </defs>
     <path d="M 30 5 A 25 25 0 1 0 30 55 A 18 25 0 1 1 30 5 Z"
           fill="url(#moonGrad)" opacity="0.9"/>
-    <circle cx="22" cy="20" r="1.5" fill="#c9a96e" opacity="0.4"/>
-    <circle cx="28" cy="38" r="1" fill="#c9a96e" opacity="0.4"/>
+    <circle cx="22" cy="20" r="1.5" fill="#d4a574" opacity="0.4"/>
+    <circle cx="28" cy="38" r="1" fill="#d4a574" opacity="0.4"/>
   </svg>
 
   <!-- Blooming flower cluster top-right -->
@@ -1261,7 +1274,7 @@
             <ellipse cx="14" cy="14" rx="14" ry="18" transform="rotate(135 14 14)" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
             <ellipse cx="-14" cy="14" rx="14" ry="18" transform="rotate(45 -14 14)" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
             <ellipse cx="-14" cy="-14" rx="14" ry="18" transform="rotate(135 -14 -14)" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
-            <circle cx="0" cy="0" r="9" fill="#c9a96e"/>
+            <circle cx="0" cy="0" r="9" fill="#d4a574"/>
             <circle cx="-3" cy="-3" r="2" fill="#fbf8fc" opacity="0.6"/>
           </g>
         </g>
@@ -1271,7 +1284,7 @@
           <ellipse cx="12" cy="0" rx="14" ry="8" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
           <ellipse cx="0" cy="12" rx="8" ry="14" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
           <ellipse cx="-12" cy="0" rx="14" ry="8" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
-          <circle cx="0" cy="0" r="5" fill="#c9a96e"/>
+          <circle cx="0" cy="0" r="5" fill="#d4a574"/>
         </g>
         <!-- Small flower -->
         <g transform="translate(160,130)">
@@ -1279,7 +1292,7 @@
           <ellipse cx="7" cy="0" rx="9" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
           <ellipse cx="0" cy="7" rx="5" ry="9" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
           <ellipse cx="-7" cy="0" rx="9" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
-          <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+          <circle cx="0" cy="0" r="3" fill="#d4a574"/>
         </g>
         <!-- Leaves -->
         <g fill="none" stroke="#6b3f7a" stroke-width="1" stroke-linecap="round">
@@ -1304,7 +1317,7 @@
             <ellipse cx="14" cy="14" rx="14" ry="18" transform="rotate(135 14 14)" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
             <ellipse cx="-14" cy="14" rx="14" ry="18" transform="rotate(45 -14 14)" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
             <ellipse cx="-14" cy="-14" rx="14" ry="18" transform="rotate(135 -14 -14)" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
-            <circle cx="0" cy="0" r="9" fill="#c9a96e"/>
+            <circle cx="0" cy="0" r="9" fill="#d4a574"/>
             <circle cx="-3" cy="-3" r="2" fill="#fbf8fc" opacity="0.6"/>
           </g>
         </g>
@@ -1313,14 +1326,14 @@
           <ellipse cx="12" cy="0" rx="14" ry="8" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
           <ellipse cx="0" cy="12" rx="8" ry="14" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
           <ellipse cx="-12" cy="0" rx="14" ry="8" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
-          <circle cx="0" cy="0" r="5" fill="#c9a96e"/>
+          <circle cx="0" cy="0" r="5" fill="#d4a574"/>
         </g>
         <g transform="translate(60,90)">
           <ellipse cx="0" cy="-7" rx="5" ry="9" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
           <ellipse cx="7" cy="0" rx="9" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
           <ellipse cx="0" cy="7" rx="5" ry="9" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
           <ellipse cx="-7" cy="0" rx="9" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
-          <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+          <circle cx="0" cy="0" r="3" fill="#d4a574"/>
         </g>
         <g fill="none" stroke="#6b3f7a" stroke-width="1" stroke-linecap="round">
           <path d="M120 60 Q150 50 180 70 Q150 90 120 60" fill="#b89ec9" fill-opacity="0.4"/>
@@ -1345,14 +1358,14 @@
           <ellipse cx="10" cy="0" rx="12" ry="7" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8"/>
           <ellipse cx="0" cy="10" rx="7" ry="12" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8"/>
           <ellipse cx="-10" cy="0" rx="12" ry="7" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8"/>
-          <circle cx="0" cy="0" r="5" fill="#c9a96e"/>
+          <circle cx="0" cy="0" r="5" fill="#d4a574"/>
         </g>
         <g transform="translate(130,75) scale(0.7)">
           <ellipse cx="0" cy="-10" rx="7" ry="12" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
           <ellipse cx="10" cy="0" rx="12" ry="7" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
           <ellipse cx="0" cy="10" rx="7" ry="12" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
           <ellipse cx="-10" cy="0" rx="12" ry="7" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
-          <circle cx="0" cy="0" r="5" fill="#c9a96e"/>
+          <circle cx="0" cy="0" r="5" fill="#d4a574"/>
         </g>
         <circle cx="105" cy="175" r="4" fill="#d9c4e6"/>
         <circle cx="195" cy="145" r="3.5" fill="#d9c4e6"/>
@@ -1375,14 +1388,14 @@
           <ellipse cx="10" cy="0" rx="12" ry="7" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8"/>
           <ellipse cx="0" cy="10" rx="7" ry="12" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8"/>
           <ellipse cx="-10" cy="0" rx="12" ry="7" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8"/>
-          <circle cx="0" cy="0" r="5" fill="#c9a96e"/>
+          <circle cx="0" cy="0" r="5" fill="#d4a574"/>
         </g>
         <g transform="translate(275,35) scale(0.8)">
           <ellipse cx="0" cy="-10" rx="7" ry="12" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
           <ellipse cx="10" cy="0" rx="12" ry="7" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
           <ellipse cx="0" cy="10" rx="7" ry="12" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
           <ellipse cx="-10" cy="0" rx="12" ry="7" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
-          <circle cx="0" cy="0" r="5" fill="#c9a96e"/>
+          <circle cx="0" cy="0" r="5" fill="#d4a574"/>
         </g>
         <circle cx="105" cy="250" r="4" fill="#d9c4e6"/>
         <circle cx="145" cy="215" r="3.5" fill="#d9c4e6"/>
@@ -1403,7 +1416,7 @@
           <ellipse cx="6" cy="0" rx="7" ry="4" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
           <ellipse cx="0" cy="6" rx="4" ry="7" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
           <ellipse cx="-6" cy="0" rx="7" ry="4" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
-          <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+          <circle cx="0" cy="0" r="3" fill="#d4a574"/>
         </g>
       </g>
     </svg>
@@ -1420,7 +1433,7 @@
           <ellipse cx="6" cy="0" rx="7" ry="4" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.7"/>
           <ellipse cx="0" cy="6" rx="4" ry="7" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.7"/>
           <ellipse cx="-6" cy="0" rx="7" ry="4" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.7"/>
-          <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+          <circle cx="0" cy="0" r="3" fill="#d4a574"/>
         </g>
       </g>
     </svg>
@@ -1434,13 +1447,13 @@
         <g class="wing wing-l">
           <ellipse cx="15" cy="18" rx="11" ry="9" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
           <ellipse cx="15" cy="32" rx="9" ry="7" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
-          <circle cx="13" cy="17" r="2" fill="#c9a96e" opacity="0.8"/>
+          <circle cx="13" cy="17" r="2" fill="#d4a574" opacity="0.8"/>
         </g>
         <!-- right wings -->
         <g class="wing wing-r">
           <ellipse cx="35" cy="18" rx="11" ry="9" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
           <ellipse cx="35" cy="32" rx="9" ry="7" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
-          <circle cx="37" cy="17" r="2" fill="#c9a96e" opacity="0.8"/>
+          <circle cx="37" cy="17" r="2" fill="#d4a574" opacity="0.8"/>
         </g>
         <!-- body -->
         <ellipse cx="25" cy="25" rx="1.5" ry="10" fill="#3d1f4d"/>
@@ -1459,12 +1472,12 @@
         <g class="wing wing-l">
           <ellipse cx="15" cy="18" rx="11" ry="9" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
           <ellipse cx="15" cy="32" rx="9" ry="7" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
-          <circle cx="13" cy="17" r="2" fill="#c9a96e" opacity="0.8"/>
+          <circle cx="13" cy="17" r="2" fill="#d4a574" opacity="0.8"/>
         </g>
         <g class="wing wing-r">
           <ellipse cx="35" cy="18" rx="11" ry="9" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
           <ellipse cx="35" cy="32" rx="9" ry="7" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
-          <circle cx="37" cy="17" r="2" fill="#c9a96e" opacity="0.8"/>
+          <circle cx="37" cy="17" r="2" fill="#d4a574" opacity="0.8"/>
         </g>
         <ellipse cx="25" cy="25" rx="1.5" ry="10" fill="#3d1f4d"/>
         <path d="M25 15 Q22 10 20 8" stroke="#3d1f4d" stroke-width="0.8" fill="none"/>
@@ -1481,12 +1494,12 @@
         <g class="wing wing-l">
           <ellipse cx="15" cy="18" rx="11" ry="9" fill="#6b3f7a" stroke="#3d1f4d" stroke-width="0.8" opacity="0.85"/>
           <ellipse cx="15" cy="32" rx="9" ry="7" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.8" opacity="0.9"/>
-          <circle cx="13" cy="17" r="2" fill="#c9a96e"/>
+          <circle cx="13" cy="17" r="2" fill="#d4a574"/>
         </g>
         <g class="wing wing-r">
           <ellipse cx="35" cy="18" rx="11" ry="9" fill="#6b3f7a" stroke="#3d1f4d" stroke-width="0.8" opacity="0.85"/>
           <ellipse cx="35" cy="32" rx="9" ry="7" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.8" opacity="0.9"/>
-          <circle cx="37" cy="17" r="2" fill="#c9a96e"/>
+          <circle cx="37" cy="17" r="2" fill="#d4a574"/>
         </g>
         <ellipse cx="25" cy="25" rx="1.5" ry="10" fill="#3d1f4d"/>
         <path d="M25 15 Q22 10 20 8" stroke="#3d1f4d" stroke-width="0.8" fill="none"/>
@@ -1500,7 +1513,7 @@
   <!-- Twinkling stars sprinkled around -->
   <div class="twinkle" style="top: 15%; left: 25%; width: 18px; height: 18px;">
     <svg viewBox="0 0 18 18">
-      <path d="M9 0 L11 7 L18 9 L11 11 L9 18 L7 11 L0 9 L7 7 Z" fill="#c9a96e"/>
+      <path d="M9 0 L11 7 L18 9 L11 11 L9 18 L7 11 L0 9 L7 7 Z" fill="#d4a574"/>
     </svg>
   </div>
   <div class="twinkle" style="top: 30%; right: 20%; width: 12px; height: 12px; animation-delay: -1s;">
@@ -1510,7 +1523,7 @@
   </div>
   <div class="twinkle" style="top: 65%; left: 8%; width: 14px; height: 14px; animation-delay: -1.5s;">
     <svg viewBox="0 0 18 18">
-      <path d="M9 0 L11 7 L18 9 L11 11 L9 18 L7 11 L0 9 L7 7 Z" fill="#c9a96e"/>
+      <path d="M9 0 L11 7 L18 9 L11 11 L9 18 L7 11 L0 9 L7 7 Z" fill="#d4a574"/>
     </svg>
   </div>
   <div class="twinkle" style="top: 75%; right: 35%; width: 10px; height: 10px; animation-delay: -0.5s;">
@@ -1520,7 +1533,7 @@
   </div>
   <div class="twinkle" style="top: 45%; left: 5%; width: 16px; height: 16px; animation-delay: -2s;">
     <svg viewBox="0 0 18 18">
-      <path d="M9 0 L11 7 L18 9 L11 11 L9 18 L7 11 L0 9 L7 7 Z" fill="#c9a96e"/>
+      <path d="M9 0 L11 7 L18 9 L11 11 L9 18 L7 11 L0 9 L7 7 Z" fill="#d4a574"/>
     </svg>
   </div>
   <div class="twinkle" style="top: 85%; left: 55%; width: 12px; height: 12px; animation-delay: -1.2s;">
@@ -1530,7 +1543,7 @@
   </div>
   <div class="twinkle" style="top: 22%; right: 8%; width: 8px; height: 8px; animation-delay: -2.3s;">
     <svg viewBox="0 0 18 18">
-      <path d="M9 0 L11 7 L18 9 L11 11 L9 18 L7 11 L0 9 L7 7 Z" fill="#c9a96e"/>
+      <path d="M9 0 L11 7 L18 9 L11 11 L9 18 L7 11 L0 9 L7 7 Z" fill="#d4a574"/>
     </svg>
   </div>
 
@@ -1586,12 +1599,12 @@
         <g class="wing wing-l">
           <ellipse cx="15" cy="18" rx="11" ry="9" fill="#6b3f7a" stroke="#3d1f4d" stroke-width="0.8" opacity="0.85"/>
           <ellipse cx="15" cy="32" rx="9" ry="7" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.8" opacity="0.9"/>
-          <circle cx="13" cy="17" r="2" fill="#c9a96e"/>
+          <circle cx="13" cy="17" r="2" fill="#d4a574"/>
         </g>
         <g class="wing wing-r">
           <ellipse cx="35" cy="18" rx="11" ry="9" fill="#6b3f7a" stroke="#3d1f4d" stroke-width="0.8" opacity="0.85"/>
           <ellipse cx="35" cy="32" rx="9" ry="7" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.8" opacity="0.9"/>
-          <circle cx="37" cy="17" r="2" fill="#c9a96e"/>
+          <circle cx="37" cy="17" r="2" fill="#d4a574"/>
         </g>
         <ellipse cx="25" cy="25" rx="1.5" ry="10" fill="#3d1f4d"/>
         <path d="M25 15 Q22 10 20 8" stroke="#3d1f4d" stroke-width="0.8" fill="none"/>
@@ -1608,7 +1621,7 @@
         <ellipse cx="7" cy="0" rx="9" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6" opacity="0.9"/>
         <ellipse cx="0" cy="7" rx="5" ry="9" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6" opacity="0.9"/>
         <ellipse cx="-7" cy="0" rx="9" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6" opacity="0.9"/>
-        <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+        <circle cx="0" cy="0" r="3" fill="#d4a574"/>
       </g>
     </svg>
   </div>
@@ -1619,7 +1632,7 @@
         <ellipse cx="8" cy="0" rx="10" ry="6" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.6" opacity="0.9"/>
         <ellipse cx="0" cy="8" rx="6" ry="10" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.6" opacity="0.9"/>
         <ellipse cx="-8" cy="0" rx="10" ry="6" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.6" opacity="0.9"/>
-        <circle cx="0" cy="0" r="3.5" fill="#c9a96e"/>
+        <circle cx="0" cy="0" r="3.5" fill="#d4a574"/>
       </g>
     </svg>
   </div>
@@ -1630,7 +1643,7 @@
         <ellipse cx="6" cy="0" rx="8" ry="4" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6" opacity="0.85"/>
         <ellipse cx="0" cy="6" rx="4" ry="8" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6" opacity="0.85"/>
         <ellipse cx="-6" cy="0" rx="8" ry="4" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6" opacity="0.85"/>
-        <circle cx="0" cy="0" r="2.5" fill="#c9a96e"/>
+        <circle cx="0" cy="0" r="2.5" fill="#d4a574"/>
       </g>
     </svg>
   </div>
@@ -1641,7 +1654,7 @@
         <ellipse cx="7" cy="0" rx="9" ry="5" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.6" opacity="0.88"/>
         <ellipse cx="0" cy="7" rx="5" ry="9" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.6" opacity="0.88"/>
         <ellipse cx="-7" cy="0" rx="9" ry="5" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.6" opacity="0.88"/>
-        <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+        <circle cx="0" cy="0" r="3" fill="#d4a574"/>
       </g>
     </svg>
   </div>
@@ -1701,7 +1714,7 @@
         <path d="M50 50 Q75 35 75 50 Q75 65 50 50"/>
         <path d="M50 50 Q35 75 50 75 Q65 75 50 50"/>
         <path d="M50 50 Q35 25 50 25 Q65 25 50 50"/>
-        <circle cx="50" cy="50" r="5" fill="#c9a96e" stroke="none"/>
+        <circle cx="50" cy="50" r="5" fill="#d4a574" stroke="none"/>
       </g>
     </svg>
 
@@ -1739,7 +1752,7 @@
           <ellipse cx="8" cy="0" rx="8" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6"/>
           <ellipse cx="0" cy="8" rx="5" ry="8" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6"/>
           <ellipse cx="-8" cy="0" rx="8" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6"/>
-          <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+          <circle cx="0" cy="0" r="3" fill="#d4a574"/>
         </g>
         <!-- flower 2 (smaller) -->
         <g transform="translate(155,45) scale(0.6)">
@@ -1747,7 +1760,7 @@
           <ellipse cx="8" cy="0" rx="8" ry="5" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
           <ellipse cx="0" cy="8" rx="5" ry="8" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
           <ellipse cx="-8" cy="0" rx="8" ry="5" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
-          <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+          <circle cx="0" cy="0" r="3" fill="#d4a574"/>
         </g>
         <!-- small bud -->
         <circle cx="60" cy="125" r="3" fill="#d9c4e6"/>
@@ -1768,14 +1781,14 @@
           <ellipse cx="8" cy="0" rx="8" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6"/>
           <ellipse cx="0" cy="8" rx="5" ry="8" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6"/>
           <ellipse cx="-8" cy="0" rx="8" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6"/>
-          <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+          <circle cx="0" cy="0" r="3" fill="#d4a574"/>
         </g>
         <g transform="translate(155,45) scale(0.6)">
           <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
           <ellipse cx="8" cy="0" rx="8" ry="5" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
           <ellipse cx="0" cy="8" rx="5" ry="8" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
           <ellipse cx="-8" cy="0" rx="8" ry="5" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
-          <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+          <circle cx="0" cy="0" r="3" fill="#d4a574"/>
         </g>
         <circle cx="60" cy="125" r="3" fill="#d9c4e6"/>
         <circle cx="130" cy="90" r="2.5" fill="#d9c4e6"/>
@@ -1880,7 +1893,7 @@
   }
 
   // Falling petals in intro
-  const introPetalColors = ['#b89ec9', '#d9c4e6', '#c9a96e', '#fbf8fc'];
+  const introPetalColors = ['#b89ec9', '#d9c4e6', '#d4a574', '#fbe8d8', '#f4c8c0', '#c8859b'];
   function introPetalSVG(color) {
     return `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
       <path d="M10 2 Q14 6 14 10 Q14 14 10 18 Q6 14 6 10 Q6 6 10 2 Z"
@@ -1894,7 +1907,7 @@
     // Every 3rd one is a heart instead of a petal
     const isHeart = Math.random() < 0.33;
     if (isHeart) {
-      const heartShades = ['#b89ec9', '#d9c4e6', '#fbf8fc'];
+      const heartShades = ['#b89ec9', '#d9c4e6', '#fbe8d8', '#f4c8c0'];
       const color = heartShades[Math.floor(Math.random() * heartShades.length)];
       p.innerHTML = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="${color}" opacity="0.85"/>
@@ -1960,18 +1973,15 @@
     });
   });
 
-  // ===== DESKTOP SMOOTH SNAP =====
-  // On touch devices we use native CSS scroll-snap (set via media query).
-  // On desktop (mouse-wheel/trackpad), CSS mandatory snap fights every wheel
-  // tick and causes jitter. Instead, we let the browser scroll freely and
-  // snap to the nearest section only after the user has stopped scrolling.
+  // ===== SLOW SMOOTH SNAP (all devices) =====
+  // Custom JS scroll for consistent slow, graceful section transitions
+  // on desktop (wheel) and mobile/tablet (swipe).
   const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
   const journey = document.getElementById('journey');
 
-  if (!isTouchDevice && journey) {
+  if (journey) {
     let scrollTimer = null;
     let isSnapping = false;
-    let lastUserScrollTime = 0;
 
     // Custom smooth scroll with controllable duration & easing
     function smoothScrollTo(target, duration) {
@@ -1979,7 +1989,6 @@
       const change = target - start;
       if (Math.abs(change) < 1) return Promise.resolve();
       const startTime = performance.now();
-      // easeInOutCubic — gentle start, gentle end
       const ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
       return new Promise((resolve) => {
         function step(now) {
@@ -2007,48 +2016,94 @@
       smoothScrollTo(targetY, 1100).then(() => { isSnapping = false; });
     }
 
+    function goToScene(idx) {
+      if (isSnapping) return;
+      const targetIdx = Math.max(0, Math.min(scenes.length - 1, idx));
+      isSnapping = true;
+      smoothScrollTo(targetIdx * journey.clientHeight, 1100).then(() => {
+        isSnapping = false;
+      });
+    }
+
+    // ----- DESKTOP: wheel handling -----
+    if (!isTouchDevice) {
+      let wheelLock = false;
+      journey.addEventListener('wheel', (e) => {
+        if (wheelLock) { e.preventDefault(); return; }
+        if (Math.abs(e.deltaY) < 8) return;
+        const dir = e.deltaY > 0 ? 1 : -1;
+        const sceneHeight = journey.clientHeight;
+        const currentIdx = Math.round(journey.scrollTop / sceneHeight);
+        const targetIdx = Math.max(0, Math.min(scenes.length - 1, currentIdx + dir));
+        if (targetIdx === currentIdx) return;
+        e.preventDefault();
+        wheelLock = true;
+        goToScene(targetIdx);
+        setTimeout(() => { wheelLock = false; }, 1200);
+      }, { passive: false });
+    }
+
+    // ----- TOUCH: swipe handling -----
+    if (isTouchDevice) {
+      let touchStartY = 0;
+      let touchStartTime = 0;
+      let touchLock = false;
+
+      journey.addEventListener('touchstart', (e) => {
+        if (touchLock) return;
+        touchStartY = e.touches[0].clientY;
+        touchStartTime = performance.now();
+      }, { passive: true });
+
+      // Prevent native scroll - we control it
+      journey.addEventListener('touchmove', (e) => {
+        if (touchLock || isSnapping) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      journey.addEventListener('touchend', (e) => {
+        if (touchLock || isSnapping) return;
+        const touchEndY = e.changedTouches[0].clientY;
+        const deltaY = touchStartY - touchEndY;
+        const deltaTime = performance.now() - touchStartTime;
+        // Threshold: 50px swipe OR a fast flick (60px in <300ms)
+        const isSwipe = Math.abs(deltaY) > 50 || (Math.abs(deltaY) > 30 && deltaTime < 300);
+        if (!isSwipe) return;
+
+        const dir = deltaY > 0 ? 1 : -1;
+        const sceneHeight = journey.clientHeight;
+        const currentIdx = Math.round(journey.scrollTop / sceneHeight);
+        const targetIdx = Math.max(0, Math.min(scenes.length - 1, currentIdx + dir));
+        if (targetIdx === currentIdx) return;
+
+        touchLock = true;
+        goToScene(targetIdx);
+        setTimeout(() => { touchLock = false; }, 1200);
+      }, { passive: true });
+    }
+
+    // ----- Common: detect any other scroll motion (e.g. arrow keys, dragging
+    // scroll edge) and snap back to the nearest section after a pause -----
     journey.addEventListener('scroll', () => {
       if (isSnapping) return;
-      lastUserScrollTime = performance.now();
       clearTimeout(scrollTimer);
       scrollTimer = setTimeout(snapToNearest, 180);
     }, { passive: true });
 
-    // Wheel: one wheel tick = one slow, graceful section glide
-    let wheelLock = false;
-    journey.addEventListener('wheel', (e) => {
-      if (wheelLock) { e.preventDefault(); return; }
-      if (Math.abs(e.deltaY) < 8) return;
-      const dir = e.deltaY > 0 ? 1 : -1;
-      const sceneHeight = journey.clientHeight;
-      const currentIdx = Math.round(journey.scrollTop / sceneHeight);
-      const targetIdx = Math.max(0, Math.min(scenes.length - 1, currentIdx + dir));
-      if (targetIdx === currentIdx) return;
-      e.preventDefault();
-      wheelLock = true;
-      isSnapping = true;
-      // 1100ms = slow, deliberate, graceful slide between scenes
-      smoothScrollTo(targetIdx * sceneHeight, 1100).then(() => {
-        wheelLock = false;
-        isSnapping = false;
-      });
-    }, { passive: false });
-
-    // Override dot click and keyboard to use the slower custom scroll too
+    // Override dot click to use the slow scroll
     document.querySelectorAll('.progress .dot').forEach(dot => {
       dot.addEventListener('click', (e) => {
         e.stopImmediatePropagation();
         const idx = parseInt(dot.dataset.scene);
-        if (isSnapping) return;
-        isSnapping = true;
-        smoothScrollTo(idx * journey.clientHeight, 1100).then(() => { isSnapping = false; });
+        goToScene(idx);
       }, true);
     });
   }
 
   // Floating petals on click
   const petalsLayer = document.getElementById('petals');
-  const petalColors = ['#b89ec9', '#d9c4e6', '#6b3f7a', '#c9a96e'];
+  const petalColors = ['#b89ec9', '#d9c4e6', '#6b3f7a', '#d4a574', '#f4c8c0', '#c8859b'];
 
   function makePetalSVG(color) {
     return `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -2122,7 +2177,7 @@
     const size = 12 + Math.random() * 10;
     heart.style.width = size + 'px';
     heart.style.height = size + 'px';
-    const heartShades = ['#6b3f7a', '#b89ec9', '#d9c4e6'];
+    const heartShades = ['#6b3f7a', '#b89ec9', '#d9c4e6', '#c8859b'];
     const color = heartShades[Math.floor(Math.random() * heartShades.length)];
     heart.innerHTML = `<svg viewBox="0 0 24 24" fill="${color}" style="width:100%;height:100%;">
       <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -2144,7 +2199,8 @@
   const heartShadesAmbient = [
     { color: '#6b3f7a', opacity: 0.55 },
     { color: '#b89ec9', opacity: 0.7 },
-    { color: '#d9c4e6', opacity: 0.85 }
+    { color: '#d9c4e6', opacity: 0.85 },
+    { color: '#c8859b', opacity: 0.65 }
   ];
   function spawnRisingHeart() {
     const h = document.createElement('div');
