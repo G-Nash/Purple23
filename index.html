@@ -1,0 +1,2202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For Purple ⋅ Twenty-Three</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Italiana&family=Cormorant+Upright:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --plum-deep: #3d1f4d;
+    --plum: #6b3f7a;
+    --lavender: #b89ec9;
+    --lilac: #d9c4e6;
+    --whisper: #e8d8f0;        /* was #f3ecf7 — deeper lavender */
+    --paper:   #f0e3f5;        /* was #fbf8fc — soft lilac base */
+    --ink: #2a1733;
+    --gold: #c9a96e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* Prevent flash of unstyled content during font load */
+  html { font-display: swap; }
+
+  /* Hint GPU compositing only for the most expensive animated layers.
+     Overusing will-change creates too many compositor layers and hurts perf. */
+  .orb,
+  .petal,
+  .heart-rise,
+  .intro-petal {
+    will-change: transform, opacity;
+  }
+
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', serif;
+    cursor: none;
+  }
+
+  /* ========= INTRO OVERLAY ========= */
+  .intro {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    background: linear-gradient(180deg, #2a1733 0%, #3d1f4d 50%, #6b3f7a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity 1.4s ease, visibility 1.4s ease;
+  }
+  .intro.gone {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* Animated night-sky stars in intro */
+  .intro-stars {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .intro-star {
+    position: absolute;
+    background: #fff8e7;
+    border-radius: 50%;
+    animation: introTwinkle 2s ease-in-out infinite;
+  }
+  @keyframes introTwinkle {
+    0%, 100% { opacity: 0.2; transform: scale(0.6); }
+    50%      { opacity: 1;   transform: scale(1.2); }
+  }
+
+  /* Drifting flower silhouettes behind intro text */
+  .intro-flower {
+    position: absolute;
+    opacity: 0;
+    animation: introFlowerRise 8s ease-out infinite;
+  }
+  @keyframes introFlowerRise {
+    0%   { transform: translateY(110vh) rotate(0); opacity: 0; }
+    15%  { opacity: 0.5; }
+    85%  { opacity: 0.5; }
+    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* Intro content */
+  .intro-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #fbf8fc;
+  }
+  .intro-bloom {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 2rem;
+    animation: bloomGrow 2.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+  }
+  @keyframes bloomGrow {
+    from { opacity: 0; transform: scale(0) rotate(-180deg); }
+    to   { opacity: 1; transform: scale(1) rotate(0); }
+  }
+  .intro-bloom svg { width: 100%; height: 100%; animation: bloomRotate 30s linear infinite; }
+
+  .intro-line {
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+  .intro-text {
+    font-family: 'Italiana', serif;
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    letter-spacing: 0.15em;
+    color: #fbf8fc;
+    display: inline-block;
+    transform: translateY(110%);
+    animation: introRise 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .intro-line:nth-child(2) .intro-text { animation-delay: 1.4s; }
+  .intro-line:nth-child(3) .intro-text { animation-delay: 1.8s; }
+  .intro-text.small {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+    letter-spacing: 0.05em;
+    color: #d9c4e6;
+  }
+  @keyframes introRise {
+    to { transform: translateY(0); }
+  }
+
+  .intro-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    color: #fbf8fc;
+    margin: 1rem 0;
+    display: inline-block;
+    transform: translateY(110%);
+    animation: introRise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1s forwards;
+  }
+
+  .intro-divider {
+    width: 60px;
+    height: 1px;
+    background: #c9a96e;
+    margin: 1.5rem auto;
+    transform: scaleX(0);
+    animation: introDivider 1s ease 2.4s forwards;
+  }
+  @keyframes introDivider {
+    to { transform: scaleX(1); }
+  }
+
+  .intro-cta {
+    margin-top: 2.5rem;
+    padding: 0.9rem 2.5rem;
+    background: transparent;
+    border: 1px solid #c9a96e;
+    color: #fbf8fc;
+    font-family: 'Italiana', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    cursor: pointer;
+    opacity: 0;
+    animation: introCtaIn 1s ease 2.8s forwards;
+    transition: background 0.4s ease, color 0.4s ease, letter-spacing 0.4s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .intro-cta:hover {
+    background: #c9a96e;
+    color: #2a1733;
+    letter-spacing: 0.4em;
+  }
+  @keyframes introCtaIn {
+    to { opacity: 1; }
+  }
+
+  /* Falling petals in intro */
+  .intro-petal {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    top: -20px;
+    animation: introFall linear infinite;
+  }
+  @keyframes introFall {
+    0%   { transform: translateY(0) rotate(0); opacity: 0; }
+    10%  { opacity: 0.9; }
+    90%  { opacity: 0.9; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ========= FROSTED CARD FOR TEXT LEGIBILITY ========= */
+  .card {
+    position: relative;
+    z-index: 3;
+    padding: 4rem 3.5rem;
+    background: rgba(248, 240, 252, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(139, 95, 168, 0.4);
+    border-radius: 4px;
+    box-shadow:
+      0 30px 80px -30px rgba(61, 31, 77, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.35) inset;
+    max-width: 720px;
+  }
+  .card-narrow { max-width: 520px; }
+
+  /* ========= AMBIENT GLOBAL BACKGROUND ========= */
+  .ambient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  /* Push scenes above ambient, keep journey container transparent */
+  .journey { position: relative; z-index: 1; background: transparent; }
+  .scene { position: relative; }
+
+  /* Floating glow orbs - much more visible */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 1;
+  }
+  .orb-1 {
+    width: 720px; height: 720px;
+    background: radial-gradient(circle, rgba(139, 95, 168, 0.7), transparent 70%);
+    top: -12%; left: -10%;
+    animation: orbFloat1 22s ease-in-out infinite;
+  }
+  .orb-2 {
+    width: 820px; height: 820px;
+    background: radial-gradient(circle, rgba(184, 158, 201, 0.72), transparent 70%);
+    bottom: -18%; right: -12%;
+    animation: orbFloat2 28s ease-in-out infinite;
+  }
+  .orb-3 {
+    width: 560px; height: 560px;
+    background: radial-gradient(circle, rgba(201, 169, 110, 0.25), transparent 70%);
+    top: 40%; left: 50%;
+    animation: orbFloat3 32s ease-in-out infinite;
+  }
+  .orb-4 {
+    width: 620px; height: 620px;
+    background: radial-gradient(circle, rgba(107, 63, 122, 0.6), transparent 70%);
+    top: 60%; left: 5%;
+    animation: orbFloat1 26s ease-in-out infinite reverse;
+  }
+
+  @keyframes orbFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%      { transform: translate(80px, 60px) scale(1.1); }
+    66%      { transform: translate(-40px, 100px) scale(0.95); }
+  }
+  @keyframes orbFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(-100px, -80px) scale(1.15); }
+  }
+  @keyframes orbFloat3 {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50%      { transform: translate(-30%, -60%) scale(1.2); }
+  }
+
+  /* Subtle dotted floral pattern overlay */
+  .pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 12% 18%, rgba(107, 63, 122, 0.14) 1.5px, transparent 2px),
+      radial-gradient(circle at 78% 32%, rgba(184, 158, 201, 0.20) 1.5px, transparent 2px),
+      radial-gradient(circle at 42% 78%, rgba(201, 169, 110, 0.16) 1.5px, transparent 2px),
+      radial-gradient(circle at 88% 88%, rgba(107, 63, 122, 0.12) 1.5px, transparent 2px);
+    background-size: 220px 220px, 280px 280px, 320px 320px, 260px 260px;
+    background-position: 0 0, 80px 40px, 40px 160px, 120px 100px;
+    opacity: 0.8;
+  }
+
+  /* SVG grain — paper texture */
+  .grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.22;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.42  0 0 0 0 0.25  0 0 0 0 0.48  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* Decorative botanical flourishes - now clearly visible */
+  .deco-botanical {
+    position: absolute;
+    opacity: 0.65;
+    pointer-events: none;
+  }
+  .deco-botanical svg { width: 100%; height: 100%; }
+  .deco-1 {
+    --rot: 25deg;
+    top: 3%; right: -3%;
+    width: 340px;
+    animation: swayGentle 12s ease-in-out infinite;
+  }
+  .deco-2 {
+    --rot: -15deg;
+    bottom: 5%; left: -2%;
+    width: 300px;
+    animation: swayGentle 14s ease-in-out infinite reverse;
+  }
+  .deco-3 {
+    --rot: -20deg;
+    top: 8%; left: 3%;
+    width: 180px;
+    opacity: 0.55;
+    animation: swayGentle 16s ease-in-out infinite;
+  }
+  .deco-4 {
+    --rot: 30deg;
+    bottom: 10%; right: 4%;
+    width: 200px;
+    opacity: 0.55;
+    animation: swayGentle 13s ease-in-out infinite reverse;
+  }
+
+  @keyframes swayGentle {
+    0%, 100% { transform: rotate(var(--rot)) translateY(0); }
+    50%      { transform: rotate(calc(var(--rot) + 3deg)) translateY(-12px); }
+  }
+
+  /* Floating butterflies */
+  .butterfly {
+    position: absolute;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .butterfly svg { width: 100%; height: 100%; overflow: visible; }
+  .butterfly .wing {
+    transform-origin: center;
+    animation: flutter 0.4s ease-in-out infinite alternate;
+  }
+  .butterfly .wing-r { animation-delay: 0.05s; }
+
+  @keyframes flutter {
+    from { transform: scaleX(1); }
+    to   { transform: scaleX(0.35); }
+  }
+
+  .butterfly-1 {
+    width: 45px; height: 45px;
+    top: 18%; left: 12%;
+    animation: butterflyPath1 18s ease-in-out infinite;
+  }
+  .butterfly-2 {
+    width: 35px; height: 35px;
+    top: 55%; right: 15%;
+    animation: butterflyPath2 22s ease-in-out infinite;
+  }
+  .butterfly-3 {
+    width: 40px; height: 40px;
+    bottom: 25%; left: 30%;
+    animation: butterflyPath3 20s ease-in-out infinite;
+  }
+  .butterfly-4 {
+    width: 32px; height: 32px;
+    top: 8%; right: 28%;
+    animation: butterflyPath4 24s ease-in-out infinite;
+  }
+  .butterfly-5 {
+    width: 38px; height: 38px;
+    bottom: 12%; right: 35%;
+    animation: butterflyPath5 26s ease-in-out infinite;
+  }
+
+  @keyframes butterflyPath1 {
+    0%   { transform: translate(0, 0) rotate(-5deg); }
+    25%  { transform: translate(80px, -40px) rotate(10deg); }
+    50%  { transform: translate(150px, 30px) rotate(-8deg); }
+    75%  { transform: translate(60px, 80px) rotate(15deg); }
+    100% { transform: translate(0, 0) rotate(-5deg); }
+  }
+  @keyframes butterflyPath2 {
+    0%   { transform: translate(0, 0) rotate(5deg); }
+    33%  { transform: translate(-90px, -60px) rotate(-12deg); }
+    66%  { transform: translate(-40px, 50px) rotate(8deg); }
+    100% { transform: translate(0, 0) rotate(5deg); }
+  }
+  @keyframes butterflyPath3 {
+    0%   { transform: translate(0, 0) rotate(0); }
+    50%  { transform: translate(100px, -80px) rotate(20deg); }
+    100% { transform: translate(0, 0) rotate(0); }
+  }
+  @keyframes butterflyPath4 {
+    0%   { transform: translate(0, 0) rotate(8deg); }
+    33%  { transform: translate(-60px, 70px) rotate(-15deg); }
+    66%  { transform: translate(-120px, 20px) rotate(10deg); }
+    100% { transform: translate(0, 0) rotate(8deg); }
+  }
+  @keyframes butterflyPath5 {
+    0%   { transform: translate(0, 0) rotate(-8deg); }
+    25%  { transform: translate(-70px, -50px) rotate(12deg); }
+    50%  { transform: translate(40px, -100px) rotate(-6deg); }
+    75%  { transform: translate(80px, -20px) rotate(10deg); }
+    100% { transform: translate(0, 0) rotate(-8deg); }
+  }
+
+  /* Twinkling stars */
+  .twinkle {
+    position: absolute;
+    pointer-events: none;
+  }
+  .twinkle svg {
+    width: 100%; height: 100%;
+    animation: twinkle 2.5s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50%      { opacity: 1;   transform: scale(1.1); }
+  }
+
+  /* Floating heart accents */
+  .heart-float {
+    position: absolute;
+    pointer-events: none;
+    color: var(--lavender);
+    opacity: 0.6;
+  }
+  .heart-float svg {
+    width: 100%; height: 100%;
+    animation: heartFloat 6s ease-in-out infinite;
+  }
+  @keyframes heartFloat {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50%      { transform: translateY(-15px) rotate(5deg); }
+  }
+
+  /* Bigger blooming flower clusters in corners */
+  .bloom {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0.85;
+  }
+  .bloom svg { width: 100%; height: 100%; }
+  .bloom-tr {
+    top: -40px; right: -40px;
+    width: 220px; height: 220px;
+    animation: bloomRotate 60s linear infinite;
+  }
+  .bloom-bl {
+    bottom: -40px; left: -40px;
+    width: 220px; height: 220px;
+    animation: bloomRotate 70s linear infinite reverse;
+  }
+  @keyframes bloomRotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  /* Small floating flowers scattered mid-page */
+  .mini-flower {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0.55;
+    animation: miniFlowerFloat 8s ease-in-out infinite;
+  }
+  .mini-flower svg { width: 100%; height: 100%; }
+  @keyframes miniFlowerFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%      { transform: translateY(-14px) rotate(10deg); }
+  }
+
+  /* Crescent moon (top right of page) */
+  .moon {
+    position: absolute;
+    top: 8%;
+    right: 10%;
+    width: 60px;
+    height: 60px;
+    opacity: 0.7;
+    pointer-events: none;
+    animation: moonGlow 4s ease-in-out infinite;
+  }
+  @keyframes moonGlow {
+    0%, 100% { filter: drop-shadow(0 0 12px rgba(201, 169, 110, 0.5)); }
+    50%      { filter: drop-shadow(0 0 24px rgba(201, 169, 110, 0.85)); }
+  }
+
+  /* Soft vignette for content legibility */
+  .vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(107, 63, 122, 0.35) 100%);
+  }
+
+  /* ========= PURPLE HEARTS - signature motif ========= */
+  /* Rising hearts - drift upward continuously */
+  .heart-rise {
+    position: absolute;
+    bottom: -40px;
+    pointer-events: none;
+    will-change: transform, opacity;
+  }
+  .heart-rise svg { width: 100%; height: 100%; }
+  @keyframes heartRise {
+    0% {
+      transform: translateY(0) translateX(0) rotate(-10deg) scale(0.6);
+      opacity: 0;
+    }
+    10% { opacity: 0.7; }
+    50% { transform: translateY(-50vh) translateX(20px) rotate(8deg) scale(1); }
+    90% { opacity: 0.7; }
+    100% {
+      transform: translateY(-110vh) translateX(-15px) rotate(-5deg) scale(0.8);
+      opacity: 0;
+    }
+  }
+
+  /* Pulsing hearts - fixed positions, gentle breathing */
+  .heart-pulse {
+    position: absolute;
+    pointer-events: none;
+  }
+  .heart-pulse svg {
+    width: 100%;
+    height: 100%;
+    animation: heartPulse 3s ease-in-out infinite;
+  }
+  @keyframes heartPulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50%      { transform: scale(1.25); opacity: 0.95; }
+  }
+
+  /* Orbital hearts - slow circular drift */
+  .heart-orbit {
+    position: absolute;
+    pointer-events: none;
+    animation: heartOrbit 14s ease-in-out infinite;
+  }
+  .heart-orbit svg {
+    width: 100%;
+    height: 100%;
+    animation: heartFloat 6s ease-in-out infinite;
+  }
+  @keyframes heartOrbit {
+    0%, 100% { transform: translate(0, 0); }
+    25%      { transform: translate(40px, -30px); }
+    50%      { transform: translate(70px, 20px); }
+    75%      { transform: translate(20px, 40px); }
+  }
+
+  /* All scenes transparent so the rich purple ambient shows through uniformly.
+     Previously 2 & 4 had pale tints which dulled their purple look. */
+  .scene-1, .scene-2, .scene-3, .scene-4 { background: transparent !important; }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--plum);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    transition: width 0.3s ease, height 0.3s ease, background 0.3s ease;
+    opacity: 0.7;
+  }
+  .cursor.expand {
+    width: 40px;
+    height: 40px;
+    background: var(--lilac);
+  }
+
+  /* Page container - vertical scroll-snap journey */
+  .journey {
+    overflow-y: scroll;
+    height: 100vh;
+    height: 100dvh; /* dynamic viewport height — iOS Safari fix */
+    -webkit-overflow-scrolling: touch;
+    /* Hide scrollbar */
+    scrollbar-width: none;          /* Firefox */
+    -ms-overflow-style: none;       /* IE / old Edge */
+    /* Scroll-snap removed from here — handled by JS for smoothness.
+       Mobile keeps CSS snap because touch flick + CSS snap is smooth. */
+  }
+  .journey::-webkit-scrollbar {     /* Chrome / Safari / Opera */
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  /* On touch devices (mobile/tablet), use native CSS snap since touch flick
+     does not fight mandatory snap the way mouse-wheel does on desktop. */
+  @media (hover: none) and (pointer: coarse) {
+    .journey {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+    .scene { scroll-snap-align: start; scroll-snap-stop: always; }
+  }
+  /* Hide global body scrollbar too if any browser exposes it */
+  html, body {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+  .scene {
+    height: 100vh;
+    height: 100dvh;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 4rem 2rem;
+  }
+
+  /* Decorative scene backgrounds */
+  .scene::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* SCENE 1: Opening invitation */
+  .scene-1 {
+    background: linear-gradient(180deg, var(--paper) 0%, var(--whisper) 100%);
+  }
+  .scene-1::before {
+    background:
+      radial-gradient(circle at 15% 20%, rgba(184, 158, 201, 0.18), transparent 35%),
+      radial-gradient(circle at 85% 80%, rgba(217, 196, 230, 0.22), transparent 40%);
+  }
+
+  .opening {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    max-width: 720px;
+  }
+  .opening .mark {
+    font-family: 'Italiana', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.5em;
+    color: var(--plum);
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeIn 1.4s ease 0.3s forwards;
+  }
+  .opening .mark::before,
+  .opening .mark::after {
+    content: '';
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background: var(--plum);
+    vertical-align: middle;
+    margin: 0 1.5rem;
+    opacity: 0.5;
+  }
+
+  .opening h1 {
+    font-family: 'Italiana', serif;
+    font-size: clamp(3.5rem, 9vw, 7.5rem);
+    font-weight: 400;
+    color: var(--plum-deep);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+  }
+  .opening h1 .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .opening h1 .word:nth-child(1) { animation-delay: 0.8s; }
+  .opening h1 .word:nth-child(2) { animation-delay: 1.0s; font-style: italic; color: var(--plum); }
+  .opening h1 .word:nth-child(3) { animation-delay: 1.2s; }
+
+  .opening .sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    color: var(--plum);
+    margin-top: 2rem;
+    opacity: 0;
+    animation: fadeIn 1.4s ease 1.8s forwards;
+  }
+
+  .opening .date {
+    margin-top: 3rem;
+    font-family: 'Italiana', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.4em;
+    color: var(--ink);
+    opacity: 0;
+    animation: fadeIn 1.4s ease 2.2s forwards;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeIn 1.5s ease 2.8s forwards;
+  }
+  .scroll-hint span {
+    display: block;
+    font-family: 'Italiana', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    color: var(--plum);
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+  }
+  .scroll-hint .line {
+    width: 1px;
+    height: 40px;
+    background: var(--plum);
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+  .scroll-hint .line::after {
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--paper);
+    animation: scrollDown 2s ease-in-out infinite;
+  }
+
+  /* SCENE 2: Twenty-three */
+  .scene-2 {
+    background: var(--whisper);
+  }
+  .scene-2::before {
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.6), transparent 60%);
+  }
+
+  .number-scene {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .number-scene .label {
+    font-family: 'Italiana', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.5em;
+    color: var(--plum);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .number-scene .big {
+    font-family: 'Italiana', serif;
+    font-size: clamp(10rem, 28vw, 22rem);
+    color: var(--plum-deep);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    position: relative;
+    display: inline-block;
+  }
+  .number-scene .big::after {
+    content: '';
+    position: absolute;
+    bottom: 12%;
+    left: -8%;
+    right: -8%;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .reveal .number-scene .big::after {
+    animation: drawLine 1.4s ease 0.6s forwards;
+  }
+  .number-scene .caption {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    color: var(--plum);
+    margin-top: 2rem;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+
+  /* Floral SVG decorations */
+  .floral {
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 1.4s ease, transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal .floral { opacity: 1; }
+
+  .floral-tl {
+    top: 6%;
+    left: 4%;
+    width: clamp(120px, 18vw, 240px);
+    transform: rotate(-15deg) translate(-30px, -30px);
+  }
+  .reveal .floral-tl {
+    transform: rotate(-15deg) translate(0, 0);
+  }
+
+  .floral-br {
+    bottom: 6%;
+    right: 4%;
+    width: clamp(120px, 18vw, 240px);
+    transform: rotate(165deg) translate(-30px, -30px);
+  }
+  .reveal .floral-br {
+    transform: rotate(165deg) translate(0, 0);
+  }
+
+  /* SCENE 3: Wishes */
+  .scene-3 {
+    background: linear-gradient(180deg, var(--whisper) 0%, var(--paper) 100%);
+  }
+
+  .wishes {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+  }
+  .wishes .eyebrow {
+    font-family: 'Italiana', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.5em;
+    color: var(--plum);
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s ease;
+  }
+  .reveal .wishes .eyebrow { opacity: 1; transform: translateY(0); }
+
+  .wishes h2 {
+    font-family: 'Italiana', serif;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 400;
+    color: var(--plum-deep);
+    line-height: 1.15;
+    margin-bottom: 2.5rem;
+  }
+  .wishes h2 em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--plum);
+  }
+  .wishes h2 .line {
+    display: block;
+    overflow: hidden;
+  }
+  .wishes h2 .line span {
+    display: inline-block;
+    transform: translateY(120%);
+    transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal .wishes h2 .line span { transform: translateY(0); }
+  .reveal .wishes h2 .line:nth-child(2) span { transition-delay: 0.15s; }
+  .reveal .wishes h2 .line:nth-child(3) span { transition-delay: 0.3s; }
+
+  .wishes p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    line-height: 1.7;
+    color: var(--ink);
+    opacity: 0.85;
+    max-width: 580px;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s ease 0.6s;
+  }
+  .reveal .wishes p { opacity: 0.85; transform: translateY(0); }
+
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    margin: 2.5rem auto;
+    transform: scaleX(0);
+    transition: transform 1s ease 0.8s;
+  }
+  .reveal .divider { transform: scaleX(1); }
+
+  /* SCENE 4: Signature */
+  .scene-4 {
+    background: var(--paper);
+  }
+  .scene-4::before {
+    background:
+      radial-gradient(circle at 50% 100%, rgba(184, 158, 201, 0.15), transparent 50%);
+  }
+
+  .signature {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    max-width: 640px;
+  }
+  .signature .from {
+    font-family: 'Italiana', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.5em;
+    color: var(--plum);
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  .reveal .signature .from { opacity: 1; }
+
+  .signature .name {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(4rem, 10vw, 8rem);
+    color: var(--plum-deep);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+  }
+  .reveal .signature .name { opacity: 1; transform: translateY(0); }
+
+  .signature .underline {
+    width: 180px;
+    height: 1px;
+    background: var(--plum);
+    margin: 0 auto 2rem;
+    transform: scaleX(0);
+    transition: transform 1.2s ease 1s;
+  }
+  .reveal .signature .underline { transform: scaleX(1); }
+
+  .signature .note {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    color: var(--plum);
+    opacity: 0;
+    transition: opacity 1s ease 1.3s;
+  }
+  .reveal .signature .note { opacity: 1; }
+
+  .signature .heart {
+    margin-top: 4rem;
+    opacity: 0;
+    transition: opacity 1s ease 1.6s;
+  }
+  .reveal .signature .heart { opacity: 1; }
+  .signature .heart svg {
+    width: 24px;
+    height: 24px;
+    color: var(--plum);
+    animation: heartbeat 1.8s ease-in-out infinite;
+  }
+
+  /* Floating petals */
+  .petals-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+  }
+  .petal {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+  }
+  .petal svg { width: 100%; height: 100%; }
+
+  /* Progress dots */
+  .progress {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .progress .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--lavender);
+    cursor: pointer;
+    transition: all 0.4s ease;
+  }
+  .progress .dot.active {
+    background: var(--plum);
+    border-color: var(--plum);
+    transform: scale(1.3);
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollDown {
+    0% { top: -40px; }
+    100% { top: 40px; }
+  }
+  @keyframes drawLine {
+    to { transform: scaleX(1); }
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.2); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.1); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(5deg); }
+  }
+  @keyframes drift {
+    to {
+      transform: translateY(110vh) rotate(720deg);
+      opacity: 0;
+    }
+  }
+
+  /* Floating decorations */
+  .floral-deco {
+    position: absolute;
+    pointer-events: none;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* ========= RESPONSIVE LAYER ========= */
+
+  /* Tablet (≤ 900px) */
+  @media (max-width: 900px) {
+    .bloom-tr, .bloom-bl { width: 170px; height: 170px; }
+    .deco-1 { width: 240px; top: 2%; right: -3%; }
+    .deco-2 { width: 220px; bottom: 4%; left: -2%; }
+    .deco-3 { width: 130px; }
+    .deco-4 { width: 150px; }
+    .moon { width: 50px; height: 50px; top: 6%; right: 8%; }
+    .orb { filter: blur(60px); }
+    .progress { right: 1rem; }
+    .card { padding: 3rem 2.5rem; }
+  }
+
+  /* Mobile (≤ 640px) */
+  @media (max-width: 640px) {
+    /* Body cursor → native */
+    html, body { cursor: auto; }
+    .cursor { display: none; }
+
+    /* Scene padding tighter so card has room */
+    .scene { padding: 5rem 1.25rem 4rem; }
+
+    /* Cards smaller, snug */
+    .card {
+      padding: 2.5rem 1.5rem;
+      max-width: 100%;
+    }
+    .card-narrow { max-width: 100%; }
+
+    /* Reduce big decorations */
+    .bloom-tr, .bloom-bl { width: 120px; height: 120px; opacity: 0.7; }
+    .bloom-tr { top: -20px; right: -20px; }
+    .bloom-bl { bottom: -20px; left: -20px; }
+    .deco-1 { width: 160px; top: 1%; right: -5%; opacity: 0.5; }
+    .deco-2 { width: 150px; bottom: 3%; left: -4%; opacity: 0.5; }
+    .deco-3, .deco-4 { display: none; } /* hide smaller sprigs to reduce clutter */
+    .moon { width: 38px; height: 38px; top: 4%; right: 5%; }
+
+    /* Lighter orbs on mobile */
+    .orb-1 { width: 360px; height: 360px; }
+    .orb-2 { width: 420px; height: 420px; }
+    .orb-3 { width: 280px; height: 280px; }
+    .orb-4 { width: 320px; height: 320px; }
+    .orb { filter: blur(50px); opacity: 0.7; }
+
+    /* Smaller butterflies, fewer drift options */
+    .butterfly-1 { width: 32px; height: 32px; top: 14%; left: 8%; }
+    .butterfly-2 { width: 26px; height: 26px; top: 58%; right: 8%; }
+    .butterfly-3 { width: 30px; height: 30px; bottom: 22%; left: 20%; }
+
+    /* Progress dots — smaller, edge-snug */
+    .progress { right: 0.75rem; gap: 0.7rem; }
+    .progress .dot { width: 6px; height: 6px; }
+
+    /* Stars and hearts: reduce count visually by hiding some */
+    .twinkle:nth-of-type(odd) { opacity: 0.5; }
+    .heart-float { opacity: 0.4; }
+
+    /* Scene 2: 23 — tighten ratio */
+    .number-scene .big { font-size: 8rem; }
+    .number-scene .caption { font-size: 1rem; }
+
+    /* Wishes headline lines a bit smaller */
+    .wishes h2 { font-size: 1.8rem; line-height: 1.25; }
+
+    /* Signature name */
+    .signature .name { font-size: 4rem; }
+
+    /* Floral corners inside scenes - hide tight overlaps */
+    .floral-tl, .floral-br { width: 110px; }
+
+    /* Scroll hint position */
+    .scroll-hint { bottom: 1.5rem; }
+    .scroll-hint .line { height: 30px; }
+
+    /* Intro tweaks */
+    .intro-bloom { width: 110px; height: 110px; }
+    .intro-name { font-size: 3.5rem; }
+    .intro-content { padding: 0 1.5rem; }
+    .intro-cta { padding: 0.8rem 2rem; font-size: 0.72rem; }
+  }
+
+  /* Small mobile (≤ 380px) - extra tightening */
+  @media (max-width: 380px) {
+    .card { padding: 2rem 1.25rem; }
+    .opening h1 { font-size: 3rem; }
+    .number-scene .big { font-size: 6.5rem; }
+    .wishes h2 { font-size: 1.55rem; }
+    .signature .name { font-size: 3.2rem; }
+    .intro-name { font-size: 2.8rem; }
+  }
+
+  /* Landscape phones - shrink vertical scale */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .scene { padding: 2rem 1.5rem; }
+    .opening h1 { font-size: 3rem; }
+    .number-scene .big { font-size: 6rem; }
+    .wishes h2 { font-size: 1.5rem; }
+    .signature .name { font-size: 3rem; }
+    .intro-bloom { width: 80px; height: 80px; margin-bottom: 1rem; }
+    .scroll-hint { display: none; }
+  }
+
+  /* Touch devices: disable hover-only effects */
+  @media (hover: none) {
+    .intro-cta:hover { background: transparent; color: #fbf8fc; letter-spacing: 0.35em; }
+  }
+
+  /* Reduced motion accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== INTRO OVERLAY ===== -->
+<div class="intro" id="intro">
+  <div class="intro-stars" id="introStars"></div>
+
+  <div class="intro-content">
+    <!-- Big flower bloom -->
+    <div class="intro-bloom">
+      <svg viewBox="0 0 140 140">
+        <g transform="translate(70,70)">
+          <!-- outer petals -->
+          <ellipse cx="0" cy="-32" rx="18" ry="32" fill="#b89ec9" stroke="#fbf8fc" stroke-width="1.2" opacity="0.9"/>
+          <ellipse cx="32" cy="0" rx="32" ry="18" fill="#b89ec9" stroke="#fbf8fc" stroke-width="1.2" opacity="0.9"/>
+          <ellipse cx="0" cy="32" rx="18" ry="32" fill="#b89ec9" stroke="#fbf8fc" stroke-width="1.2" opacity="0.9"/>
+          <ellipse cx="-32" cy="0" rx="32" ry="18" fill="#b89ec9" stroke="#fbf8fc" stroke-width="1.2" opacity="0.9"/>
+          <!-- diagonals -->
+          <ellipse cx="22" cy="-22" rx="20" ry="26" transform="rotate(45 22 -22)" fill="#d9c4e6" stroke="#fbf8fc" stroke-width="1" opacity="0.95"/>
+          <ellipse cx="22" cy="22" rx="20" ry="26" transform="rotate(135 22 22)" fill="#d9c4e6" stroke="#fbf8fc" stroke-width="1" opacity="0.95"/>
+          <ellipse cx="-22" cy="22" rx="20" ry="26" transform="rotate(45 -22 22)" fill="#d9c4e6" stroke="#fbf8fc" stroke-width="1" opacity="0.95"/>
+          <ellipse cx="-22" cy="-22" rx="20" ry="26" transform="rotate(135 -22 -22)" fill="#d9c4e6" stroke="#fbf8fc" stroke-width="1" opacity="0.95"/>
+          <!-- center -->
+          <circle cx="0" cy="0" r="14" fill="#c9a96e"/>
+          <circle cx="-4" cy="-4" r="4" fill="#fff8e7" opacity="0.6"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="intro-line"><span class="intro-text small">A celebration awaits</span></div>
+    <div class="intro-line">
+      <span class="intro-name">Purple</span>
+    </div>
+    <div class="intro-divider"></div>
+    <div class="intro-line"><span class="intro-text small">turning twenty-three</span></div>
+
+    <button class="intro-cta" id="introCta">Open the Letter</button>
+  </div>
+</div>
+
+<!-- Ambient global background -->
+<div class="ambient" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+  <div class="pattern"></div>
+
+  <!-- Crescent moon -->
+  <svg class="moon" viewBox="0 0 60 60">
+    <defs>
+      <radialGradient id="moonGrad" cx="40%" cy="40%">
+        <stop offset="0%" stop-color="#fff8e7"/>
+        <stop offset="100%" stop-color="#c9a96e"/>
+      </radialGradient>
+    </defs>
+    <path d="M 30 5 A 25 25 0 1 0 30 55 A 18 25 0 1 1 30 5 Z"
+          fill="url(#moonGrad)" opacity="0.9"/>
+    <circle cx="22" cy="20" r="1.5" fill="#c9a96e" opacity="0.4"/>
+    <circle cx="28" cy="38" r="1" fill="#c9a96e" opacity="0.4"/>
+  </svg>
+
+  <!-- Blooming flower cluster top-right -->
+  <div class="bloom bloom-tr">
+    <svg viewBox="0 0 220 220">
+      <g>
+        <!-- Big flower 1 -->
+        <g transform="translate(60,60)">
+          <g>
+            <ellipse cx="0" cy="-20" rx="14" ry="22" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="1"/>
+            <ellipse cx="20" cy="0" rx="22" ry="14" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="1"/>
+            <ellipse cx="0" cy="20" rx="14" ry="22" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="1"/>
+            <ellipse cx="-20" cy="0" rx="22" ry="14" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="1"/>
+            <ellipse cx="14" cy="-14" rx="14" ry="18" transform="rotate(45 14 -14)" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
+            <ellipse cx="14" cy="14" rx="14" ry="18" transform="rotate(135 14 14)" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
+            <ellipse cx="-14" cy="14" rx="14" ry="18" transform="rotate(45 -14 14)" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
+            <ellipse cx="-14" cy="-14" rx="14" ry="18" transform="rotate(135 -14 -14)" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
+            <circle cx="0" cy="0" r="9" fill="#c9a96e"/>
+            <circle cx="-3" cy="-3" r="2" fill="#fbf8fc" opacity="0.6"/>
+          </g>
+        </g>
+        <!-- Medium flower -->
+        <g transform="translate(140,40)">
+          <ellipse cx="0" cy="-12" rx="8" ry="14" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="12" cy="0" rx="14" ry="8" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="0" cy="12" rx="8" ry="14" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="-12" cy="0" rx="14" ry="8" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
+          <circle cx="0" cy="0" r="5" fill="#c9a96e"/>
+        </g>
+        <!-- Small flower -->
+        <g transform="translate(160,130)">
+          <ellipse cx="0" cy="-7" rx="5" ry="9" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
+          <ellipse cx="7" cy="0" rx="9" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
+          <ellipse cx="0" cy="7" rx="5" ry="9" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
+          <ellipse cx="-7" cy="0" rx="9" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
+          <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+        </g>
+        <!-- Leaves -->
+        <g fill="none" stroke="#6b3f7a" stroke-width="1" stroke-linecap="round">
+          <path d="M30 100 Q60 90 90 110 Q60 130 30 100" fill="#b89ec9" fill-opacity="0.4"/>
+          <path d="M100 150 Q130 140 160 160 Q130 180 100 150" fill="#b89ec9" fill-opacity="0.4"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Blooming flower cluster bottom-left -->
+  <div class="bloom bloom-bl">
+    <svg viewBox="0 0 220 220">
+      <g>
+        <g transform="translate(160,160)">
+          <g>
+            <ellipse cx="0" cy="-20" rx="14" ry="22" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="1"/>
+            <ellipse cx="20" cy="0" rx="22" ry="14" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="1"/>
+            <ellipse cx="0" cy="20" rx="14" ry="22" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="1"/>
+            <ellipse cx="-20" cy="0" rx="22" ry="14" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="1"/>
+            <ellipse cx="14" cy="-14" rx="14" ry="18" transform="rotate(45 14 -14)" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
+            <ellipse cx="14" cy="14" rx="14" ry="18" transform="rotate(135 14 14)" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
+            <ellipse cx="-14" cy="14" rx="14" ry="18" transform="rotate(45 -14 14)" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
+            <ellipse cx="-14" cy="-14" rx="14" ry="18" transform="rotate(135 -14 -14)" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
+            <circle cx="0" cy="0" r="9" fill="#c9a96e"/>
+            <circle cx="-3" cy="-3" r="2" fill="#fbf8fc" opacity="0.6"/>
+          </g>
+        </g>
+        <g transform="translate(80,180)">
+          <ellipse cx="0" cy="-12" rx="8" ry="14" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="12" cy="0" rx="14" ry="8" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="0" cy="12" rx="8" ry="14" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="-12" cy="0" rx="14" ry="8" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
+          <circle cx="0" cy="0" r="5" fill="#c9a96e"/>
+        </g>
+        <g transform="translate(60,90)">
+          <ellipse cx="0" cy="-7" rx="5" ry="9" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
+          <ellipse cx="7" cy="0" rx="9" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
+          <ellipse cx="0" cy="7" rx="5" ry="9" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
+          <ellipse cx="-7" cy="0" rx="9" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
+          <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+        </g>
+        <g fill="none" stroke="#6b3f7a" stroke-width="1" stroke-linecap="round">
+          <path d="M120 60 Q150 50 180 70 Q150 90 120 60" fill="#b89ec9" fill-opacity="0.4"/>
+          <path d="M40 130 Q70 120 100 140 Q70 160 40 130" fill="#b89ec9" fill-opacity="0.4"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Botanical flourish top-right (existing, now more visible) -->
+  <div class="deco-botanical deco-1">
+    <svg viewBox="0 0 300 300">
+      <g fill="none" stroke="#6b3f7a" stroke-width="1.2" stroke-linecap="round">
+        <path d="M150 280 Q160 200 150 140 Q140 80 160 30"/>
+        <path d="M150 250 Q120 240 100 250 Q120 260 150 250" fill="#b89ec9" fill-opacity="0.5"/>
+        <path d="M155 220 Q185 210 200 220 Q180 230 155 220" fill="#b89ec9" fill-opacity="0.5"/>
+        <path d="M148 190 Q120 180 105 190 Q125 200 148 190" fill="#b89ec9" fill-opacity="0.5"/>
+        <path d="M152 160 Q180 150 195 160 Q175 170 152 160" fill="#b89ec9" fill-opacity="0.5"/>
+        <path d="M150 130 Q125 120 110 130 Q130 140 150 130" fill="#b89ec9" fill-opacity="0.5"/>
+        <g transform="translate(160,40)">
+          <ellipse cx="0" cy="-10" rx="7" ry="12" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="10" cy="0" rx="12" ry="7" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="0" cy="10" rx="7" ry="12" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="-10" cy="0" rx="12" ry="7" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8"/>
+          <circle cx="0" cy="0" r="5" fill="#c9a96e"/>
+        </g>
+        <g transform="translate(130,75) scale(0.7)">
+          <ellipse cx="0" cy="-10" rx="7" ry="12" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
+          <ellipse cx="10" cy="0" rx="12" ry="7" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
+          <ellipse cx="0" cy="10" rx="7" ry="12" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
+          <ellipse cx="-10" cy="0" rx="12" ry="7" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
+          <circle cx="0" cy="0" r="5" fill="#c9a96e"/>
+        </g>
+        <circle cx="105" cy="175" r="4" fill="#d9c4e6"/>
+        <circle cx="195" cy="145" r="3.5" fill="#d9c4e6"/>
+        <circle cx="115" cy="125" r="3.5" fill="#b89ec9"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Botanical flourish bottom-left -->
+  <div class="deco-botanical deco-2">
+    <svg viewBox="0 0 300 300">
+      <g fill="none" stroke="#6b3f7a" stroke-width="1.2" stroke-linecap="round">
+        <path d="M30 290 Q80 240 120 200 Q170 150 220 100 Q260 60 280 30"/>
+        <path d="M70 240 Q100 230 110 250" fill="#b89ec9" fill-opacity="0.5"/>
+        <path d="M110 200 Q140 195 145 215" fill="#b89ec9" fill-opacity="0.5"/>
+        <path d="M150 165 Q180 160 185 180" fill="#b89ec9" fill-opacity="0.5"/>
+        <path d="M190 130 Q220 125 225 145" fill="#b89ec9" fill-opacity="0.5"/>
+        <g transform="translate(225,90)">
+          <ellipse cx="0" cy="-10" rx="7" ry="12" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="10" cy="0" rx="12" ry="7" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="0" cy="10" rx="7" ry="12" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="-10" cy="0" rx="12" ry="7" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8"/>
+          <circle cx="0" cy="0" r="5" fill="#c9a96e"/>
+        </g>
+        <g transform="translate(275,35) scale(0.8)">
+          <ellipse cx="0" cy="-10" rx="7" ry="12" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
+          <ellipse cx="10" cy="0" rx="12" ry="7" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
+          <ellipse cx="0" cy="10" rx="7" ry="12" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
+          <ellipse cx="-10" cy="0" rx="12" ry="7" fill="#b89ec9" stroke="#6b3f7a" stroke-width="1"/>
+          <circle cx="0" cy="0" r="5" fill="#c9a96e"/>
+        </g>
+        <circle cx="105" cy="250" r="4" fill="#d9c4e6"/>
+        <circle cx="145" cy="215" r="3.5" fill="#d9c4e6"/>
+        <circle cx="185" cy="180" r="3.5" fill="#b89ec9"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Smaller flourishes -->
+  <div class="deco-botanical deco-3">
+    <svg viewBox="0 0 100 100">
+      <g fill="none" stroke="#6b3f7a" stroke-width="1.2" stroke-linecap="round">
+        <path d="M20 90 Q40 60 50 30"/>
+        <path d="M30 70 Q45 65 50 75" fill="#b89ec9" fill-opacity="0.5"/>
+        <path d="M40 50 Q55 45 60 55" fill="#b89ec9" fill-opacity="0.5"/>
+        <g transform="translate(55,25)">
+          <ellipse cx="0" cy="-6" rx="4" ry="7" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
+          <ellipse cx="6" cy="0" rx="7" ry="4" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
+          <ellipse cx="0" cy="6" rx="4" ry="7" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
+          <ellipse cx="-6" cy="0" rx="7" ry="4" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.7"/>
+          <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="deco-botanical deco-4">
+    <svg viewBox="0 0 100 100">
+      <g fill="none" stroke="#6b3f7a" stroke-width="1.2" stroke-linecap="round">
+        <path d="M80 10 Q60 40 50 70"/>
+        <path d="M70 30 Q55 35 50 25" fill="#b89ec9" fill-opacity="0.5"/>
+        <path d="M60 50 Q45 55 40 45" fill="#b89ec9" fill-opacity="0.5"/>
+        <g transform="translate(45,75)">
+          <ellipse cx="0" cy="-6" rx="4" ry="7" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.7"/>
+          <ellipse cx="6" cy="0" rx="7" ry="4" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.7"/>
+          <ellipse cx="0" cy="6" rx="4" ry="7" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.7"/>
+          <ellipse cx="-6" cy="0" rx="7" ry="4" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.7"/>
+          <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Butterflies -->
+  <div class="butterfly butterfly-1">
+    <svg viewBox="0 0 50 50">
+      <g>
+        <!-- left wings -->
+        <g class="wing wing-l">
+          <ellipse cx="15" cy="18" rx="11" ry="9" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
+          <ellipse cx="15" cy="32" rx="9" ry="7" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
+          <circle cx="13" cy="17" r="2" fill="#c9a96e" opacity="0.8"/>
+        </g>
+        <!-- right wings -->
+        <g class="wing wing-r">
+          <ellipse cx="35" cy="18" rx="11" ry="9" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
+          <ellipse cx="35" cy="32" rx="9" ry="7" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
+          <circle cx="37" cy="17" r="2" fill="#c9a96e" opacity="0.8"/>
+        </g>
+        <!-- body -->
+        <ellipse cx="25" cy="25" rx="1.5" ry="10" fill="#3d1f4d"/>
+        <!-- antennae -->
+        <path d="M25 15 Q22 10 20 8" stroke="#3d1f4d" stroke-width="0.8" fill="none"/>
+        <path d="M25 15 Q28 10 30 8" stroke="#3d1f4d" stroke-width="0.8" fill="none"/>
+        <circle cx="20" cy="8" r="1" fill="#3d1f4d"/>
+        <circle cx="30" cy="8" r="1" fill="#3d1f4d"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="butterfly butterfly-2">
+    <svg viewBox="0 0 50 50">
+      <g>
+        <g class="wing wing-l">
+          <ellipse cx="15" cy="18" rx="11" ry="9" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
+          <ellipse cx="15" cy="32" rx="9" ry="7" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
+          <circle cx="13" cy="17" r="2" fill="#c9a96e" opacity="0.8"/>
+        </g>
+        <g class="wing wing-r">
+          <ellipse cx="35" cy="18" rx="11" ry="9" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
+          <ellipse cx="35" cy="32" rx="9" ry="7" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
+          <circle cx="37" cy="17" r="2" fill="#c9a96e" opacity="0.8"/>
+        </g>
+        <ellipse cx="25" cy="25" rx="1.5" ry="10" fill="#3d1f4d"/>
+        <path d="M25 15 Q22 10 20 8" stroke="#3d1f4d" stroke-width="0.8" fill="none"/>
+        <path d="M25 15 Q28 10 30 8" stroke="#3d1f4d" stroke-width="0.8" fill="none"/>
+        <circle cx="20" cy="8" r="1" fill="#3d1f4d"/>
+        <circle cx="30" cy="8" r="1" fill="#3d1f4d"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="butterfly butterfly-3">
+    <svg viewBox="0 0 50 50">
+      <g>
+        <g class="wing wing-l">
+          <ellipse cx="15" cy="18" rx="11" ry="9" fill="#6b3f7a" stroke="#3d1f4d" stroke-width="0.8" opacity="0.85"/>
+          <ellipse cx="15" cy="32" rx="9" ry="7" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.8" opacity="0.9"/>
+          <circle cx="13" cy="17" r="2" fill="#c9a96e"/>
+        </g>
+        <g class="wing wing-r">
+          <ellipse cx="35" cy="18" rx="11" ry="9" fill="#6b3f7a" stroke="#3d1f4d" stroke-width="0.8" opacity="0.85"/>
+          <ellipse cx="35" cy="32" rx="9" ry="7" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.8" opacity="0.9"/>
+          <circle cx="37" cy="17" r="2" fill="#c9a96e"/>
+        </g>
+        <ellipse cx="25" cy="25" rx="1.5" ry="10" fill="#3d1f4d"/>
+        <path d="M25 15 Q22 10 20 8" stroke="#3d1f4d" stroke-width="0.8" fill="none"/>
+        <path d="M25 15 Q28 10 30 8" stroke="#3d1f4d" stroke-width="0.8" fill="none"/>
+        <circle cx="20" cy="8" r="1" fill="#3d1f4d"/>
+        <circle cx="30" cy="8" r="1" fill="#3d1f4d"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Twinkling stars sprinkled around -->
+  <div class="twinkle" style="top: 15%; left: 25%; width: 18px; height: 18px;">
+    <svg viewBox="0 0 18 18">
+      <path d="M9 0 L11 7 L18 9 L11 11 L9 18 L7 11 L0 9 L7 7 Z" fill="#c9a96e"/>
+    </svg>
+  </div>
+  <div class="twinkle" style="top: 30%; right: 20%; width: 12px; height: 12px; animation-delay: -1s;">
+    <svg viewBox="0 0 18 18">
+      <path d="M9 0 L11 7 L18 9 L11 11 L9 18 L7 11 L0 9 L7 7 Z" fill="#b89ec9"/>
+    </svg>
+  </div>
+  <div class="twinkle" style="top: 65%; left: 8%; width: 14px; height: 14px; animation-delay: -1.5s;">
+    <svg viewBox="0 0 18 18">
+      <path d="M9 0 L11 7 L18 9 L11 11 L9 18 L7 11 L0 9 L7 7 Z" fill="#c9a96e"/>
+    </svg>
+  </div>
+  <div class="twinkle" style="top: 75%; right: 35%; width: 10px; height: 10px; animation-delay: -0.5s;">
+    <svg viewBox="0 0 18 18">
+      <path d="M9 0 L11 7 L18 9 L11 11 L9 18 L7 11 L0 9 L7 7 Z" fill="#b89ec9"/>
+    </svg>
+  </div>
+  <div class="twinkle" style="top: 45%; left: 5%; width: 16px; height: 16px; animation-delay: -2s;">
+    <svg viewBox="0 0 18 18">
+      <path d="M9 0 L11 7 L18 9 L11 11 L9 18 L7 11 L0 9 L7 7 Z" fill="#c9a96e"/>
+    </svg>
+  </div>
+  <div class="twinkle" style="top: 85%; left: 55%; width: 12px; height: 12px; animation-delay: -1.2s;">
+    <svg viewBox="0 0 18 18">
+      <path d="M9 0 L11 7 L18 9 L11 11 L9 18 L7 11 L0 9 L7 7 Z" fill="#b89ec9"/>
+    </svg>
+  </div>
+  <div class="twinkle" style="top: 22%; right: 8%; width: 8px; height: 8px; animation-delay: -2.3s;">
+    <svg viewBox="0 0 18 18">
+      <path d="M9 0 L11 7 L18 9 L11 11 L9 18 L7 11 L0 9 L7 7 Z" fill="#c9a96e"/>
+    </svg>
+  </div>
+
+  <!-- ===== Purple hearts: pulsing + orbital ===== -->
+  <!-- Pulsing hearts at fixed points -->
+  <div class="heart-pulse" style="top: 18%; right: 18%; width: 22px; height: 22px; color: #6b3f7a;">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+  <div class="heart-pulse" style="top: 38%; left: 7%; width: 16px; height: 16px; color: #b89ec9; animation-delay: -1s;">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+  <div class="heart-pulse" style="bottom: 28%; right: 28%; width: 14px; height: 14px; color: #d9c4e6;">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+  <div class="heart-pulse" style="top: 68%; left: 38%; width: 12px; height: 12px; color: #6b3f7a; animation-delay: -1.8s;">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+
+  <!-- Orbital hearts: drift in slow circles -->
+  <div class="heart-orbit" style="top: 22%; left: 32%; width: 18px; height: 18px; color: #b89ec9;">
+    <svg viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.6;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+  <div class="heart-orbit" style="bottom: 18%; left: 12%; width: 14px; height: 14px; color: #6b3f7a; animation-delay: -5s;">
+    <svg viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.55;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+  <div class="heart-orbit" style="top: 48%; right: 10%; width: 16px; height: 16px; color: #d9c4e6; animation-delay: -8s;">
+    <svg viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.7;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+
+  <!-- Butterfly 4 (lilac) -->
+  <div class="butterfly butterfly-4">
+    <svg viewBox="0 0 50 50">
+      <g>
+        <g class="wing wing-l">
+          <ellipse cx="15" cy="18" rx="11" ry="9" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
+          <ellipse cx="15" cy="32" rx="9" ry="7" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
+        </g>
+        <g class="wing wing-r">
+          <ellipse cx="35" cy="18" rx="11" ry="9" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
+          <ellipse cx="35" cy="32" rx="9" ry="7" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8" opacity="0.9"/>
+        </g>
+        <ellipse cx="25" cy="25" rx="1.5" ry="10" fill="#3d1f4d"/>
+        <path d="M25 15 Q22 10 20 8" stroke="#3d1f4d" stroke-width="0.8" fill="none"/>
+        <path d="M25 15 Q28 10 30 8" stroke="#3d1f4d" stroke-width="0.8" fill="none"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Butterfly 5 (deep plum) -->
+  <div class="butterfly butterfly-5">
+    <svg viewBox="0 0 50 50">
+      <g>
+        <g class="wing wing-l">
+          <ellipse cx="15" cy="18" rx="11" ry="9" fill="#6b3f7a" stroke="#3d1f4d" stroke-width="0.8" opacity="0.85"/>
+          <ellipse cx="15" cy="32" rx="9" ry="7" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.8" opacity="0.9"/>
+          <circle cx="13" cy="17" r="2" fill="#c9a96e"/>
+        </g>
+        <g class="wing wing-r">
+          <ellipse cx="35" cy="18" rx="11" ry="9" fill="#6b3f7a" stroke="#3d1f4d" stroke-width="0.8" opacity="0.85"/>
+          <ellipse cx="35" cy="32" rx="9" ry="7" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.8" opacity="0.9"/>
+          <circle cx="37" cy="17" r="2" fill="#c9a96e"/>
+        </g>
+        <ellipse cx="25" cy="25" rx="1.5" ry="10" fill="#3d1f4d"/>
+        <path d="M25 15 Q22 10 20 8" stroke="#3d1f4d" stroke-width="0.8" fill="none"/>
+        <path d="M25 15 Q28 10 30 8" stroke="#3d1f4d" stroke-width="0.8" fill="none"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Small floating flowers mid-page -->
+  <div class="mini-flower" style="top: 22%; right: 22%; width: 32px; height: 32px;">
+    <svg viewBox="0 0 40 40">
+      <g transform="translate(20,20)">
+        <ellipse cx="0" cy="-7" rx="5" ry="9" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6" opacity="0.9"/>
+        <ellipse cx="7" cy="0" rx="9" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6" opacity="0.9"/>
+        <ellipse cx="0" cy="7" rx="5" ry="9" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6" opacity="0.9"/>
+        <ellipse cx="-7" cy="0" rx="9" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6" opacity="0.9"/>
+        <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+      </g>
+    </svg>
+  </div>
+  <div class="mini-flower" style="top: 62%; left: 18%; width: 36px; height: 36px; animation-delay: -3s;">
+    <svg viewBox="0 0 40 40">
+      <g transform="translate(20,20)">
+        <ellipse cx="0" cy="-8" rx="6" ry="10" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.6" opacity="0.9"/>
+        <ellipse cx="8" cy="0" rx="10" ry="6" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.6" opacity="0.9"/>
+        <ellipse cx="0" cy="8" rx="6" ry="10" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.6" opacity="0.9"/>
+        <ellipse cx="-8" cy="0" rx="10" ry="6" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.6" opacity="0.9"/>
+        <circle cx="0" cy="0" r="3.5" fill="#c9a96e"/>
+      </g>
+    </svg>
+  </div>
+  <div class="mini-flower" style="top: 36%; left: 45%; width: 26px; height: 26px; animation-delay: -5s;">
+    <svg viewBox="0 0 40 40">
+      <g transform="translate(20,20)">
+        <ellipse cx="0" cy="-6" rx="4" ry="8" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6" opacity="0.85"/>
+        <ellipse cx="6" cy="0" rx="8" ry="4" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6" opacity="0.85"/>
+        <ellipse cx="0" cy="6" rx="4" ry="8" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6" opacity="0.85"/>
+        <ellipse cx="-6" cy="0" rx="8" ry="4" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6" opacity="0.85"/>
+        <circle cx="0" cy="0" r="2.5" fill="#c9a96e"/>
+      </g>
+    </svg>
+  </div>
+  <div class="mini-flower" style="bottom: 32%; right: 12%; width: 30px; height: 30px; animation-delay: -7s;">
+    <svg viewBox="0 0 40 40">
+      <g transform="translate(20,20)">
+        <ellipse cx="0" cy="-7" rx="5" ry="9" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.6" opacity="0.88"/>
+        <ellipse cx="7" cy="0" rx="9" ry="5" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.6" opacity="0.88"/>
+        <ellipse cx="0" cy="7" rx="5" ry="9" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.6" opacity="0.88"/>
+        <ellipse cx="-7" cy="0" rx="9" ry="5" fill="#b89ec9" stroke="#3d1f4d" stroke-width="0.6" opacity="0.88"/>
+        <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Additional hearts: more pulsing + orbital across page -->
+  <div class="heart-pulse" style="top: 8%; left: 42%; width: 14px; height: 14px; color: #b89ec9; animation-delay: -2s;">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+  <div class="heart-pulse" style="bottom: 8%; left: 28%; width: 13px; height: 13px; color: #d9c4e6; animation-delay: -0.7s;">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+  <div class="heart-pulse" style="top: 52%; right: 4%; width: 18px; height: 18px; color: #6b3f7a; animation-delay: -2.4s;">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+  <div class="heart-orbit" style="top: 78%; right: 42%; width: 13px; height: 13px; color: #b89ec9; animation-delay: -3s;">
+    <svg viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.6;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+
+  <!-- Rising hearts container (populated by JS) -->
+  <div id="risingHearts" style="position: absolute; inset: 0; pointer-events: none;"></div>
+
+  <div class="grain"></div>
+  <div class="vignette"></div>
+</div>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+
+<!-- Floating petals layer -->
+<div class="petals-layer" id="petals"></div>
+
+<!-- Progress indicator -->
+<div class="progress" id="progress">
+  <div class="dot active" data-scene="0"></div>
+  <div class="dot" data-scene="1"></div>
+  <div class="dot" data-scene="2"></div>
+  <div class="dot" data-scene="3"></div>
+</div>
+
+<div class="journey" id="journey">
+
+  <!-- SCENE 1: Opening -->
+  <section class="scene scene-1" data-scene="0">
+    <!-- floral corners -->
+    <svg class="floral-deco" style="top: 8%; left: 6%; width: 110px; opacity: 0.5;" viewBox="0 0 100 100">
+      <g fill="none" stroke="#b89ec9" stroke-width="1" stroke-linecap="round">
+        <path d="M50 50 Q30 30 20 50 Q30 70 50 50"/>
+        <path d="M50 50 Q70 30 80 50 Q70 70 50 50"/>
+        <path d="M50 50 Q30 70 50 80 Q70 70 50 50"/>
+        <path d="M50 50 Q70 30 50 20 Q30 30 50 50"/>
+        <circle cx="50" cy="50" r="6" fill="#d9c4e6" stroke="none"/>
+      </g>
+    </svg>
+    <svg class="floral-deco" style="bottom: 8%; right: 6%; width: 110px; opacity: 0.5; animation-delay: -3s;" viewBox="0 0 100 100">
+      <g fill="none" stroke="#b89ec9" stroke-width="1" stroke-linecap="round">
+        <path d="M50 50 Q25 35 25 50 Q25 65 50 50"/>
+        <path d="M50 50 Q75 35 75 50 Q75 65 50 50"/>
+        <path d="M50 50 Q35 75 50 75 Q65 75 50 50"/>
+        <path d="M50 50 Q35 25 50 25 Q65 25 50 50"/>
+        <circle cx="50" cy="50" r="5" fill="#c9a96e" stroke="none"/>
+      </g>
+    </svg>
+
+    <div class="card card-narrow opening">
+      <div class="mark">A Letter</div>
+      <h1>
+        <span class="word">For</span>
+        <span class="word">Purple</span>,
+      </h1>
+      <p class="sub">a little wish, gently arranged, sent with love —</p>
+      <div class="date">XXIII · MAY · MMXXVI</div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Continue</span>
+      <div class="line"></div>
+    </div>
+  </section>
+
+  <!-- SCENE 2: Twenty-three -->
+  <section class="scene scene-2" data-scene="1">
+
+    <!-- Top left floral -->
+    <svg class="floral floral-tl" viewBox="0 0 200 200">
+      <g fill="none" stroke="#6b3f7a" stroke-width="0.8" stroke-linecap="round">
+        <path d="M40 160 Q60 100 100 80 Q140 60 160 40"/>
+        <!-- leaves -->
+        <path d="M70 130 Q85 110 100 115" />
+        <path d="M70 130 Q60 115 65 100" />
+        <path d="M95 100 Q115 90 130 95" />
+        <path d="M95 100 Q85 80 90 65" />
+        <!-- flower 1 -->
+        <g transform="translate(100,80)">
+          <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6"/>
+          <ellipse cx="8" cy="0" rx="8" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6"/>
+          <ellipse cx="0" cy="8" rx="5" ry="8" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6"/>
+          <ellipse cx="-8" cy="0" rx="8" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6"/>
+          <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+        </g>
+        <!-- flower 2 (smaller) -->
+        <g transform="translate(155,45) scale(0.6)">
+          <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="8" cy="0" rx="8" ry="5" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="0" cy="8" rx="5" ry="8" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="-8" cy="0" rx="8" ry="5" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
+          <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+        </g>
+        <!-- small bud -->
+        <circle cx="60" cy="125" r="3" fill="#d9c4e6"/>
+        <circle cx="130" cy="90" r="2.5" fill="#d9c4e6"/>
+      </g>
+    </svg>
+
+    <!-- Bottom right floral (mirror) -->
+    <svg class="floral floral-br" viewBox="0 0 200 200">
+      <g fill="none" stroke="#6b3f7a" stroke-width="0.8" stroke-linecap="round">
+        <path d="M40 160 Q60 100 100 80 Q140 60 160 40"/>
+        <path d="M70 130 Q85 110 100 115" />
+        <path d="M70 130 Q60 115 65 100" />
+        <path d="M95 100 Q115 90 130 95" />
+        <path d="M95 100 Q85 80 90 65" />
+        <g transform="translate(100,80)">
+          <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6"/>
+          <ellipse cx="8" cy="0" rx="8" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6"/>
+          <ellipse cx="0" cy="8" rx="5" ry="8" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6"/>
+          <ellipse cx="-8" cy="0" rx="8" ry="5" fill="#d9c4e6" stroke="#6b3f7a" stroke-width="0.6"/>
+          <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+        </g>
+        <g transform="translate(155,45) scale(0.6)">
+          <ellipse cx="0" cy="-8" rx="5" ry="8" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="8" cy="0" rx="8" ry="5" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="0" cy="8" rx="5" ry="8" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
+          <ellipse cx="-8" cy="0" rx="8" ry="5" fill="#b89ec9" stroke="#6b3f7a" stroke-width="0.8"/>
+          <circle cx="0" cy="0" r="3" fill="#c9a96e"/>
+        </g>
+        <circle cx="60" cy="125" r="3" fill="#d9c4e6"/>
+        <circle cx="130" cy="90" r="2.5" fill="#d9c4e6"/>
+      </g>
+    </svg>
+
+    <div class="card card-narrow number-scene">
+      <div class="label">— Twenty Three —</div>
+      <div class="big">23</div>
+      <p class="caption">A new chapter opens with a lot of Awww's and Oyye's...</p>
+    </div>
+  </section>
+
+  <!-- SCENE 3: Wishes -->
+  <section class="scene scene-3" data-scene="2">
+    <div class="card wishes">
+      <div class="eyebrow">A Wish For You</div>
+      <h2>
+        <span class="line"><span>May your year be <em>kind</em>,</span></span>
+        <span class="line"><span>your laughter be <em>loud</em>,</span></span>
+        <span class="line"><span>and your dreams, <em>endless</em>.</span></span>
+      </h2>
+      <div class="divider"></div>
+      <p>
+        Twenty-three on you looks like everything I already love — the silly, the soft,
+        the loud laughs, the dramatic feelings, all of it. Wishing you a year of more
+        Pondy-shaped days, the kind where it's just us and the world feels small in
+        the best way. Here's to a year that makes you go <em>"Wooooowwwwwww"</em>
+        — the good kind, always.
+      </p>
+    </div>
+  </section>
+
+  <!-- SCENE 4: Signature -->
+  <section class="scene scene-4" data-scene="3">
+    <div class="card card-narrow signature">
+      <div class="from">— With Loads of Love, From —</div>
+      <div class="name">Your Pokémon</div>
+      <div class="underline"></div>
+      <div class="note">always by your side</div>
+      <div class="heart">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // ===== PERFORMANCE & STABILITY GUARDS =====
+
+  // 1. Wait for fonts before letting reveal animations + intro text fire,
+  //    so we don't see fallback fonts snap into the custom ones mid-animation.
+  //    Falls through after 1.5s if fonts API is unavailable / slow.
+  const fontsReady = ('fonts' in document)
+    ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1500))])
+    : Promise.resolve();
+
+  // 2. Detect slow devices / low-end hardware → trim particle counts
+  const isSlowDevice =
+    (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
+    (navigator.deviceMemory && navigator.deviceMemory <= 2) ||
+    window.matchMedia('(max-width: 640px)').matches;
+
+  // 3. Pause expensive timers when tab is hidden (battery, jank on resume)
+  let intervalRegistry = [];
+  function registerInterval(fn, delay) {
+    const id = setInterval(fn, delay);
+    intervalRegistry.push({ id, fn, delay });
+    return id;
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      intervalRegistry.forEach(item => { clearInterval(item.id); item.id = null; });
+    } else {
+      intervalRegistry.forEach(item => {
+        if (item.id === null) item.id = setInterval(item.fn, item.delay);
+      });
+    }
+  });
+
+  // ===== INTRO OVERLAY =====
+  const intro = document.getElementById('intro');
+  const introStars = document.getElementById('introStars');
+  const introCta = document.getElementById('introCta');
+
+  // Sprinkle stars at random — fewer on slower devices
+  const STAR_COUNT = isSlowDevice ? 40 : 70;
+  for (let i = 0; i < STAR_COUNT; i++) {
+    const s = document.createElement('div');
+    s.className = 'intro-star';
+    const size = 1 + Math.random() * 2.5;
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.animationDelay = (Math.random() * 3) + 's';
+    s.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+    introStars.appendChild(s);
+  }
+
+  // Falling petals in intro
+  const introPetalColors = ['#b89ec9', '#d9c4e6', '#c9a96e', '#fbf8fc'];
+  function introPetalSVG(color) {
+    return `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 2 Q14 6 14 10 Q14 14 10 18 Q6 14 6 10 Q6 6 10 2 Z"
+            fill="${color}" opacity="0.85"/>
+    </svg>`;
+  }
+  function spawnIntroPetal() {
+    if (intro.classList.contains('gone')) return;
+    const p = document.createElement('div');
+    p.className = 'intro-petal';
+    // Every 3rd one is a heart instead of a petal
+    const isHeart = Math.random() < 0.33;
+    if (isHeart) {
+      const heartShades = ['#b89ec9', '#d9c4e6', '#fbf8fc'];
+      const color = heartShades[Math.floor(Math.random() * heartShades.length)];
+      p.innerHTML = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="${color}" opacity="0.85"/>
+      </svg>`;
+    } else {
+      const color = introPetalColors[Math.floor(Math.random() * introPetalColors.length)];
+      p.innerHTML = introPetalSVG(color);
+    }
+    const size = 10 + Math.random() * 16;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (6 + Math.random() * 5) + 's';
+    introStars.appendChild(p);
+    setTimeout(() => p.remove(), 11000);
+  }
+  // initial burst + ongoing
+  for (let i = 0; i < 8; i++) {
+    setTimeout(spawnIntroPetal, i * 400);
+  }
+  const introPetalInterval = registerInterval(spawnIntroPetal, isSlowDevice ? 900 : 600);
+
+  // Dismiss intro
+  function dismissIntro() {
+    intro.classList.add('gone');
+    clearInterval(introPetalInterval);
+    setTimeout(() => intro.remove(), 1500);
+  }
+  introCta.addEventListener('click', dismissIntro);
+
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  if (window.matchMedia('(min-width: 641px)').matches) {
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+    document.addEventListener('mousedown', () => cursor.classList.add('expand'));
+    document.addEventListener('mouseup', () => cursor.classList.remove('expand'));
+  }
+
+  // Intersection observer to reveal scenes
+  const scenes = document.querySelectorAll('.scene');
+  const dots = document.querySelectorAll('.progress .dot');
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+        entry.target.classList.add('reveal');
+        const idx = parseInt(entry.target.dataset.scene);
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      }
+    });
+  }, { threshold: [0.5] });
+
+  scenes.forEach(s => io.observe(s));
+
+  // Progress dot click navigation
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const idx = parseInt(dot.dataset.scene);
+      scenes[idx].scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // ===== DESKTOP SMOOTH SNAP =====
+  // On touch devices we use native CSS scroll-snap (set via media query).
+  // On desktop (mouse-wheel/trackpad), CSS mandatory snap fights every wheel
+  // tick and causes jitter. Instead, we let the browser scroll freely and
+  // snap to the nearest section only after the user has stopped scrolling.
+  const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  const journey = document.getElementById('journey');
+
+  if (!isTouchDevice && journey) {
+    let scrollTimer = null;
+    let isSnapping = false;
+    let lastUserScrollTime = 0;
+
+    // Custom smooth scroll with controllable duration & easing
+    function smoothScrollTo(target, duration) {
+      const start = journey.scrollTop;
+      const change = target - start;
+      if (Math.abs(change) < 1) return Promise.resolve();
+      const startTime = performance.now();
+      // easeInOutCubic — gentle start, gentle end
+      const ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      return new Promise((resolve) => {
+        function step(now) {
+          const elapsed = now - startTime;
+          const t = Math.min(elapsed / duration, 1);
+          journey.scrollTop = start + change * ease(t);
+          if (t < 1) {
+            requestAnimationFrame(step);
+          } else {
+            resolve();
+          }
+        }
+        requestAnimationFrame(step);
+      });
+    }
+
+    function snapToNearest() {
+      if (isSnapping) return;
+      const scrollTop = journey.scrollTop;
+      const sceneHeight = journey.clientHeight;
+      const nearestIdx = Math.round(scrollTop / sceneHeight);
+      const targetY = nearestIdx * sceneHeight;
+      if (Math.abs(scrollTop - targetY) < 2) return;
+      isSnapping = true;
+      smoothScrollTo(targetY, 1100).then(() => { isSnapping = false; });
+    }
+
+    journey.addEventListener('scroll', () => {
+      if (isSnapping) return;
+      lastUserScrollTime = performance.now();
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(snapToNearest, 180);
+    }, { passive: true });
+
+    // Wheel: one wheel tick = one slow, graceful section glide
+    let wheelLock = false;
+    journey.addEventListener('wheel', (e) => {
+      if (wheelLock) { e.preventDefault(); return; }
+      if (Math.abs(e.deltaY) < 8) return;
+      const dir = e.deltaY > 0 ? 1 : -1;
+      const sceneHeight = journey.clientHeight;
+      const currentIdx = Math.round(journey.scrollTop / sceneHeight);
+      const targetIdx = Math.max(0, Math.min(scenes.length - 1, currentIdx + dir));
+      if (targetIdx === currentIdx) return;
+      e.preventDefault();
+      wheelLock = true;
+      isSnapping = true;
+      // 1100ms = slow, deliberate, graceful slide between scenes
+      smoothScrollTo(targetIdx * sceneHeight, 1100).then(() => {
+        wheelLock = false;
+        isSnapping = false;
+      });
+    }, { passive: false });
+
+    // Override dot click and keyboard to use the slower custom scroll too
+    document.querySelectorAll('.progress .dot').forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        e.stopImmediatePropagation();
+        const idx = parseInt(dot.dataset.scene);
+        if (isSnapping) return;
+        isSnapping = true;
+        smoothScrollTo(idx * journey.clientHeight, 1100).then(() => { isSnapping = false; });
+      }, true);
+    });
+  }
+
+  // Floating petals on click
+  const petalsLayer = document.getElementById('petals');
+  const petalColors = ['#b89ec9', '#d9c4e6', '#6b3f7a', '#c9a96e'];
+
+  function makePetalSVG(color) {
+    return `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 2 Q14 6 14 10 Q14 14 10 18 Q6 14 6 10 Q6 6 10 2 Z"
+            fill="${color}" opacity="0.85"/>
+    </svg>`;
+  }
+
+  function spawnPetal(x, y) {
+    // Safety cap — never let petals accumulate runaway
+    if (petalsLayer.childElementCount > 80) return;
+    const petal = document.createElement('div');
+    petal.className = 'petal';
+    const color = petalColors[Math.floor(Math.random() * petalColors.length)];
+    petal.innerHTML = makePetalSVG(color);
+
+    const size = 8 + Math.random() * 14;
+    petal.style.width = size + 'px';
+    petal.style.height = size + 'px';
+    petal.style.left = x + 'px';
+    petal.style.top = y + 'px';
+
+    const drift = (Math.random() - 0.5) * 200;
+    const duration = 2.5 + Math.random() * 2;
+    petal.style.transition = `transform ${duration}s cubic-bezier(0.4, 0.2, 0.6, 1), opacity ${duration}s ease`;
+
+    petalsLayer.appendChild(petal);
+
+    requestAnimationFrame(() => {
+      petal.style.transform = `translate(${drift}px, ${window.innerHeight - y + 100}px) rotate(${Math.random() * 720}deg)`;
+      petal.style.opacity = '0';
+    });
+
+    setTimeout(() => petal.remove(), duration * 1000);
+  }
+
+  // Click anywhere → confetti burst of petals + hearts
+  // Throttle so rapid taps can't flood the page; skip on interactive elements
+  let lastBurst = 0;
+  document.addEventListener('click', (e) => {
+    const now = performance.now();
+    if (now - lastBurst < 120) return;            // throttle
+    lastBurst = now;
+    // Don't burst on interactive controls (CTA, dots)
+    if (e.target.closest('button, .dot, a, input, textarea, select')) return;
+    // Don't burst while intro is up — its own animation is enough
+    if (intro && !intro.classList.contains('gone')) return;
+    const burstSize = isSlowDevice ? 8 : 14;
+    for (let i = 0; i < burstSize; i++) {
+      setTimeout(() => {
+        const offsetX = (Math.random() - 0.5) * 40;
+        const offsetY = (Math.random() - 0.5) * 40;
+        // every 4th one is a heart instead of a petal
+        if (i % 4 === 0) {
+          spawnHeartBurst(e.clientX + offsetX, e.clientY + offsetY);
+        } else {
+          spawnPetal(e.clientX + offsetX, e.clientY + offsetY);
+        }
+      }, i * 30);
+    }
+  });
+
+  // Heart in the click burst — drifts up like a petal
+  function spawnHeartBurst(x, y) {
+    const heart = document.createElement('div');
+    heart.style.position = 'fixed';
+    heart.style.pointerEvents = 'none';
+    heart.style.zIndex = '100';
+    heart.style.left = x + 'px';
+    heart.style.top = y + 'px';
+    const size = 12 + Math.random() * 10;
+    heart.style.width = size + 'px';
+    heart.style.height = size + 'px';
+    const heartShades = ['#6b3f7a', '#b89ec9', '#d9c4e6'];
+    const color = heartShades[Math.floor(Math.random() * heartShades.length)];
+    heart.innerHTML = `<svg viewBox="0 0 24 24" fill="${color}" style="width:100%;height:100%;">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+    </svg>`;
+    const drift = (Math.random() - 0.5) * 150;
+    const rise = -(80 + Math.random() * 100);
+    const duration = 2.5 + Math.random() * 1.5;
+    heart.style.transition = `transform ${duration}s cubic-bezier(0.16, 1, 0.3, 1), opacity ${duration}s ease`;
+    petalsLayer.appendChild(heart);
+    requestAnimationFrame(() => {
+      heart.style.transform = `translate(${drift}px, ${rise}px) rotate(${(Math.random() - 0.5) * 60}deg) scale(1.4)`;
+      heart.style.opacity = '0';
+    });
+    setTimeout(() => heart.remove(), duration * 1000);
+  }
+
+  // ===== Ambient rising hearts — drift up across the page =====
+  const risingHearts = document.getElementById('risingHearts');
+  const heartShadesAmbient = [
+    { color: '#6b3f7a', opacity: 0.55 },
+    { color: '#b89ec9', opacity: 0.7 },
+    { color: '#d9c4e6', opacity: 0.85 }
+  ];
+  function spawnRisingHeart() {
+    const h = document.createElement('div');
+    h.className = 'heart-rise';
+    const shade = heartShadesAmbient[Math.floor(Math.random() * heartShadesAmbient.length)];
+    const size = 10 + Math.random() * 14;
+    h.style.width = size + 'px';
+    h.style.height = size + 'px';
+    h.style.left = (5 + Math.random() * 90) + '%';
+    const duration = 9 + Math.random() * 6;
+    h.style.animation = `heartRise ${duration}s ease-in-out forwards`;
+    h.innerHTML = `<svg viewBox="0 0 24 24" fill="${shade.color}" style="opacity:${shade.opacity};">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+    </svg>`;
+    risingHearts.appendChild(h);
+    setTimeout(() => h.remove(), duration * 1000 + 200);
+  }
+  // Initial spread so hearts are already mid-rise on load
+  const initialHearts = isSlowDevice ? 3 : 5;
+  for (let i = 0; i < initialHearts; i++) {
+    setTimeout(spawnRisingHeart, i * 1200);
+  }
+  // Steady stream — slower cadence on weaker devices
+  registerInterval(spawnRisingHeart, isSlowDevice ? 3200 : 2200);
+
+  // Ambient petals - slow occasional falling
+  function ambientPetal() {
+    const x = Math.random() * window.innerWidth;
+    spawnPetal(x, -20);
+  }
+  registerInterval(ambientPetal, isSlowDevice ? 2600 : 1800);
+
+  // Trigger initial reveal for scene 1 — wait for fonts so text reveals once
+  fontsReady.then(() => {
+    setTimeout(() => scenes[0].classList.add('reveal'), 100);
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    const active = document.querySelector('.progress .dot.active');
+    const currentIdx = parseInt(active.dataset.scene);
+    if (e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      const next = Math.min(currentIdx + 1, scenes.length - 1);
+      scenes[next].scrollIntoView({ behavior: 'smooth' });
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prev = Math.max(currentIdx - 1, 0);
+      scenes[prev].scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+</script>
+
+</body>
+</html>
